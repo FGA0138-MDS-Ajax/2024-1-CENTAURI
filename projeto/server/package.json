@@ -1,24 +1,27 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "base/index.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node base/index.js",
-    "dev": "nodemon base/index.js"
+    "dev": "tsx watch src/base/index.ts"
   },
   "author": "",
   "license": "ISC",
   "description": "",
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "tsx": "^4.15.5",
+    "typescript": "^5.4.5"
+  },
   "dependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "mysql": "^2.18.1",
-    "mysql2": "^3.9.8"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.1"
+    "mysql2": "^3.10.1",
+    "zod": "^3.23.8",
+    "zod-validation-error": "^3.3.0"
   }
 }
