@@ -1,21 +1,41 @@
 import { mysqlConn } from '../base/mysql';
 import ScrapingRepository from '../repositories/scraping.repository';
-import { GameSchema, InsertGameSchema, InsertGame } from '../schemas/api.schema';
+import {GameSchema, InsertGameSchema, InsertGame, GameChannel, GameChannelSchema} from '../schemas/api.schema';
 
 function toMySQLDateTimeString(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return date.toISOString().slice(0, 19).replace('T', ' ');
 }
+
+function fromMySQLDateTimeToBrazilianString(date: string | Date): string {
+    if (date instanceof Date) {
+        date = date.toISOString().slice(0, 19).replace('T', ' ');
+    }
+    const [datePart, timePart] = date.split(' ');
+    const [year, month, day] = datePart.split('-');
+    const [hours, minutes] = timePart.split(':');
+
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
+function adjustHourToLocal(dateString: string): string {
+    const date = new Date(dateString);
+    date.setHours(date.getHours() - 3);
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+}
+
 
 class GameRepository {
     async updateGames(): Promise<void> {
         try {
-            let rawGames = await ScrapingRepository.scrapingUrl1();
+            const hoje = new Date();
+            const startOfToday = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate(), 0, 0, 0);
+            const endOfToday = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate(), 23, 59, 59);
+
+            await mysqlConn.execute("DELETE FROM JOGO WHERE DATA_HORA < ?", [startOfToday]);
+
+            const rawGamesUrl2 = await ScrapingRepository.scrapingUrl2();
+            const rawGamesLiberta = await ScrapingRepository.scrapingUrlLiberta();
+            const rawGames = [...rawGamesUrl2, ...rawGamesLiberta];
 
             const games: InsertGame[] = rawGames.map(game => {
                 const horaMySQL = toMySQLDateTimeString(new Date(game.hora));
@@ -33,44 +53,111 @@ class GameRepository {
                 return InsertGameSchema.parse(insertGame);
             });
 
-            const today = new Date();
-            const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
-            const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
-
-            await mysqlConn.execute("DELETE FROM JOGO WHERE DATA_HORA < ? OR DATA_HORA > ?", [startOfToday, endOfToday]);
-
             for (const game of games) {
-                const [result]: any = await mysqlConn.execute(
-                    "INSERT INTO JOGO (TIME_1, TIME_2, DATA_HORA, CAMPEONATO) VALUES (?, ?, ?, ?)",
+                const [existingGame]: any = await mysqlConn.execute(
+                    "SELECT IDJOGO FROM JOGO WHERE TIME_1 = ? AND TIME_2 = ? AND DATA_HORA = ? AND CAMPEONATO = ?",
                     [game.time1, game.time2, game.hora, game.campeonato]
                 );
-                const jogoId = result.insertId;
 
-                for (const canal of game.channels) {
-                    const [canalResult]: any = await mysqlConn.execute(
-                        "SELECT IDCANAL FROM CANAL WHERE NOME_CANAL = ?",
-                        [canal]
+                if (existingGame.length === 0) {
+                    const [result]: any = await mysqlConn.execute(
+                        "INSERT INTO JOGO (TIME_1, TIME_2, DATA_HORA, CAMPEONATO) VALUES (?, ?, ?, ?)",
+                        [game.time1, game.time2, game.hora, game.campeonato]
                     );
-                    let canalId;
-                    if (canalResult.length > 0) {
-                        canalId = canalResult[0].IDCANAL;
-                    } else {
-                        const [newCanalResult]: any = await mysqlConn.execute(
-                            "INSERT INTO CANAL (NOME_CANAL) VALUES (?)",
+                    const jogoId = result.insertId;
+
+                    for (const canal of game.channels) {
+                        const [canalResult]: any = await mysqlConn.execute(
+                            "SELECT IDCANAL FROM CANAL WHERE NOME_CANAL = ?",
                             [canal]
                         );
-                        canalId = newCanalResult.insertId;
-                    }
+                        let canalId;
+                        if (canalResult.length > 0) {
+                            canalId = canalResult[0].IDCANAL;
+                        } else {
+                            const [newCanalResult]: any = await mysqlConn.execute(
+                                "INSERT INTO CANAL (NOME_CANAL) VALUES (?)",
+                                [canal]
+                            );
+                            canalId = newCanalResult.insertId;
+                        }
 
-                    await mysqlConn.execute(
-                        "INSERT INTO PASSA_EM (ID_JOGO, ID_CANAL) VALUES (?, ?)",
-                        [jogoId, canalId]
-                    );
+                        await mysqlConn.execute(
+                            "INSERT INTO PASSA_EM (ID_JOGO, ID_CANAL) VALUES (?, ?)",
+                            [jogoId, canalId]
+                        );
+                    }
                 }
             }
         } catch (error) {
             console.error(error);
             throw new Error("Failed to update games");
+        }
+    }
+
+
+    async getGames(): Promise<GameChannel[]> {
+        try {
+            const [games]: any = await mysqlConn.execute(
+                "SELECT J.CAMPEONATO, J.DATA_HORA, J.TIME_1, J.TIME_2, GROUP_CONCAT(C.NOME_CANAL) AS CHANNELS " +
+                "FROM JOGO J " +
+                "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
+                "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
+                "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO"
+            );
+
+            return games.map((game: any) => {
+                const channels = game.CHANNELS.split(',').map((channel: string) => channel.trim());
+
+                const adjustedDateHora = adjustHourToLocal(game.DATA_HORA);
+                const hora = fromMySQLDateTimeToBrazilianString(adjustedDateHora);
+
+                const gameChannel: GameChannel = {
+                    campeonato: game.CAMPEONATO,
+                    data_hora: hora,
+                    time_1: game.TIME_1,
+                    time_2: game.TIME_2,
+                    channels: channels
+                };
+
+                return GameChannelSchema.parse(gameChannel);
+            });
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    }
+
+    async getGamesByTime(time: string): Promise<GameChannel[]> {
+        try {
+            const [games]: any = await mysqlConn.execute(
+                "SELECT J.CAMPEONATO, J.DATA_HORA, J.TIME_1, J.TIME_2, GROUP_CONCAT(C.NOME_CANAL) AS CHANNELS " +
+                "FROM JOGO J " +
+                "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
+                "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
+                "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO " +
+                "HAVING J.TIME_1 = ? OR J.TIME_2 = ?", [time, time]
+            );
+
+            return games.map((game: any) => {
+                const channels = game.CHANNELS.split(',').map((channel: string) => channel.trim());
+
+                const adjustedDateHora = adjustHourToLocal(game.DATA_HORA);
+                const hora = fromMySQLDateTimeToBrazilianString(adjustedDateHora);
+
+                const gameChannel: GameChannel = {
+                    campeonato: game.CAMPEONATO,
+                    data_hora: hora,
+                    time_1: game.TIME_1,
+                    time_2: game.TIME_2,
+                    channels: channels
+                };
+
+                return GameChannelSchema.parse(gameChannel);
+            });
+        } catch (error) {
+            console.error(error);
+            return [];
         }
     }
 }

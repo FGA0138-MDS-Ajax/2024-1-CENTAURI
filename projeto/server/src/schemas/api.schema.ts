@@ -18,11 +18,21 @@ export const GameSchema = z.object({
 
 export const InsertGameSchema = z.object({
     campeonato: z.string(),
-    hora: z.string(), // Hora como string no formato ISO
+    hora: z.string(),
     time1: z.string(),
     time2: z.string(),
-    channels: z.array(z.string()).max(2, "Array must contain at most 2 element(s)")
+    channels: z.array(z.string()).max(3, "Array must contain at most 3 element(s)")
 });
 export type InsertGame = z.infer<typeof InsertGameSchema>;
 
 export type Game = z.infer<typeof GameSchema>;
+
+export const GameChannelSchema = z.object({
+    campeonato: z.string(),
+    data_hora: z.string(),
+    time_1: z.string(),
+    time_2: z.string(),
+    channels: z.array(z.string())
+});
+
+export type GameChannel = z.infer<typeof GameChannelSchema>;

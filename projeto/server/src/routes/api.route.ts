@@ -12,4 +12,22 @@ router.get('/v1/update-games', async (req, res) => {
     }
 });
 
+router.get('/v1/games', async (req, res) => {
+    try {
+        const games = await GameRepository.getGames();
+        res.send(games);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+router.get('/v1/games/:time', async (req, res) => {
+    try {
+        const games = await GameRepository.getGamesByTime(req.params.time);
+        res.send(games);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 export default router;
