@@ -15,8 +15,8 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import React from "react"
-import Select from "react-select"
+import React from "react";
+import Select from "react-select";
 import { CardWrapper } from "./card-register"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
