@@ -13,20 +13,23 @@ const font = Bebas_Neue({
 
 export default function Home() {
   return (
+    <main className="flex flex-col items-center justify-center flex-grow">
+      <img src="https://logodetimes.com/times/gremio/logo-gremio-2048.png" alt="Grêmio" width={100} height={100} />
         <div className="space-y-6 text-center">
-          <h1
+         
+         <h1
             className={cn(
               'text-6xl font-semibold text-white drop-shadow-md',
               font.className
             )}
           >
-            Onde é o jogo?
+            Grêmio
           </h1>
           <p className="text-lg text-black">
             Chega de ficar se perguntando onde o jogo do seu time favorito será transmitido
           </p>
         </div>
-
+    </main>
 
   );
 }
