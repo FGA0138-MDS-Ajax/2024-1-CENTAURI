@@ -103,7 +103,7 @@ const Sidebar = () => {
                           href="#"
                           className="flex items- w-full p-2 text-white transition duration-75 pl-8 group hover:bg-[#004B14]"
                         >
-                          Brasileirão
+                          Brasileirão Série A
                         </a>
                       </li>
                       <li>
