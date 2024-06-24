@@ -16,7 +16,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
-import { CardWrapper } from "./card-wrapper"
+import { CardWrapper } from "./card-wrapper";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-sucess";

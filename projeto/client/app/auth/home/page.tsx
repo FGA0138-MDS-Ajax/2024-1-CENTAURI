@@ -1,32 +1,33 @@
 import React from 'react';
-import { Bebas_Neue } from 'next/font/google';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { LoginButton } from '@/components/auth/login-button';
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
+import { Bebas_Neue } from 'next/font/google';
+import { GridTimes } from '@/components/auth/home/grid';
 
 const font = Bebas_Neue({
   subsets: ['latin'],
   weight: ['400'],
 });
 
-export default function Home() {
+export default function HomePage() {
   return (
-        <div className="space-y-6 text-center">
-          <h1
-            className={cn(
-              'text-6xl font-semibold text-white drop-shadow-md',
-              font.className
-            )}
-          >
-            Onde é o jogo?
-          </h1>
-          <p className="text-lg text-black">
-            Chega de ficar se perguntando onde o jogo do seu time favorito será transmitido
-          </p>
-        </div>
+    <div className="min-h-full w-full">
+        <div className="h-full grid grid-cols-2 divide-x-2 divide-black">
+            <div className="pt-2 pl-4 pr-4">
+                <h1 className={cn(
+                'text-4xl font-semibold text-black drop-shadow-md',
+                font.className
+              )}>Rodada X</h1>
 
-
+              <GridTimes/>
+            </div>
+            
+            <div className="pt-2 pl-4">
+                <h1 className={cn(
+                'text-4xl font-semibold text-black drop-shadow-md',
+                font.className
+              )}>Time Usuário</h1>
+            </div>    
+          </div>
+    </div>   
   );
 }
