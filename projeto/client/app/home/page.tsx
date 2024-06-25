@@ -29,7 +29,7 @@ export default function HomePage() {
                 <h1 className={cn(
                 'text-4xl font-semibold text-black drop-shadow-md text-center',
                 font.className
-              )}>Time Usuário</h1>
+              )}>Time do Usuário</h1>
               <br/>
               
               <div>
@@ -38,10 +38,9 @@ export default function HomePage() {
                 font.className
               )}>Brasileirão</h1>
               <br/>
-              
               <GridBrasileirao></GridBrasileirao>
               <br/>
-              <hr className="my-4 border-1 border-black" />
+              <hr className="my-4 border-b border-black" />
               <br/>
               <h1 className={cn(
                 'text-2xl font-semibold text-black drop-shadow-md',
