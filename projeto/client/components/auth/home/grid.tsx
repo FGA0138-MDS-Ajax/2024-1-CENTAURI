@@ -3,7 +3,6 @@
 import { Match } from "@/app/models/match";
 import { CardTimes } from "@/components/auth/home/card-times";
 
-// Cria um vetor de 8 instâncias de Match
 const matches: Match[] = [
   new Match("Brasileirão", "24/06/2024 13:30", "Time A", "Time B", ["Globo", "SporTV"]),
   new Match("Brasileirão", "25/06/2024 16:00", "Time C", "Time D", ["ESPN", "Fox Sports"]),
