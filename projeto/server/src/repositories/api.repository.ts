@@ -23,6 +23,24 @@ function adjustHourToLocal(dateString: string): string {
     return date.toISOString().slice(0, 19).replace('T', ' ');
 }
 
+function retornaJogos(games: any): GameChannel[]{
+    return games.map((game: any) => {
+        const channels = game.CHANNELS.split(',').map((channel: string) => channel.trim());
+
+        const adjustedDateHora = adjustHourToLocal(game.DATA_HORA);
+        const hora = fromMySQLDateTimeToBrazilianString(adjustedDateHora);
+
+        const gameChannel: GameChannel = {
+            campeonato: game.CAMPEONATO,
+            data_hora: hora,
+            time_1: game.TIME_1,
+            time_2: game.TIME_2,
+            channels: channels
+        };
+
+        return GameChannelSchema.parse(gameChannel);
+    });
+}
 
 class GameRepository {
     async updateGames(): Promise<void> {
@@ -103,25 +121,11 @@ class GameRepository {
                 "FROM JOGO J " +
                 "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
                 "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
+                "WHERE J.DATA_HORA >= NOW()" +
                 "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO"
             );
 
-            return games.map((game: any) => {
-                const channels = game.CHANNELS.split(',').map((channel: string) => channel.trim());
-
-                const adjustedDateHora = adjustHourToLocal(game.DATA_HORA);
-                const hora = fromMySQLDateTimeToBrazilianString(adjustedDateHora);
-
-                const gameChannel: GameChannel = {
-                    campeonato: game.CAMPEONATO,
-                    data_hora: hora,
-                    time_1: game.TIME_1,
-                    time_2: game.TIME_2,
-                    channels: channels
-                };
-
-                return GameChannelSchema.parse(gameChannel);
-            });
+            return retornaJogos(games);
         } catch (error) {
             console.error(error);
             return [];
@@ -135,29 +139,53 @@ class GameRepository {
                 "FROM JOGO J " +
                 "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
                 "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
+                "WHERE J.DATA_HORA >= NOW() " +
                 "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO " +
                 "HAVING J.TIME_1 = ? OR J.TIME_2 = ?", [time, time]
             );
 
-            return games.map((game: any) => {
-                const channels = game.CHANNELS.split(',').map((channel: string) => channel.trim());
-
-                const adjustedDateHora = adjustHourToLocal(game.DATA_HORA);
-                const hora = fromMySQLDateTimeToBrazilianString(adjustedDateHora);
-
-                const gameChannel: GameChannel = {
-                    campeonato: game.CAMPEONATO,
-                    data_hora: hora,
-                    time_1: game.TIME_1,
-                    time_2: game.TIME_2,
-                    channels: channels
-                };
-
-                return GameChannelSchema.parse(gameChannel);
-            });
+            return retornaJogos(games);
         } catch (error) {
             console.error(error);
             return [];
+        }
+    }
+
+    async getGamesByChannel(channel: string): Promise<GameChannel[]> {
+        try {
+            const [games]: any = await mysqlConn.execute(
+                "SELECT J.CAMPEONATO, J.DATA_HORA, J.TIME_1, J.TIME_2, GROUP_CONCAT(C.NOME_CANAL) AS CHANNELS " +
+                "FROM JOGO J " +
+                "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
+                "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
+                "WHERE J.DATA_HORA >= NOW() " +
+                "AND C.NOME_CANAL = ? " +
+                "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO", [channel]
+            );
+
+            return retornaJogos(games);
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    }
+
+    async getGamesByCampeonato(campeonato: string): Promise<GameChannel[]> {
+        try {
+            const [games]: any = await mysqlConn.execute(
+                "SELECT J.CAMPEONATO, J.DATA_HORA, J.TIME_1, J.TIME_2, GROUP_CONCAT(C.NOME_CANAL) AS CHANNELS " +
+                "FROM JOGO J " +
+                "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
+                "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
+                "WHERE J.DATA_HORA >= NOW() " +
+                "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO " +
+                "HAVING J.CAMPEONATO = ?", [campeonato]
+            );
+
+            return retornaJogos(games);
+        } catch (error) {
+            console.error(error);
+            return []
         }
     }
 }
