@@ -2,6 +2,7 @@ import { Bebas_Neue } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { LoginButton } from '@/components/auth/login-button';
+import { CadastroButton } from '@/components/auth/cadastro-button';
 
 const font = Bebas_Neue({
   subsets: ['latin'],
@@ -31,11 +32,11 @@ export default function Home() {
             <p>
               
             </p>
-            <LoginButton>
+            <CadastroButton>
               <Button className="bg-[#22eb4d6b] text-white" size="lg">
                 Cadastre-se
               </Button>
-            </LoginButton>
+            </CadastroButton>
           </div>
         </div>
         {/* Coluna da Direita */}

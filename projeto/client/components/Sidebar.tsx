@@ -23,10 +23,10 @@ const Sidebar = () => {
       <button
         type="button"
         onClick={toggleSidebar}
-        className="absolute top-1 left-4 inline-flex justify-center items-center w-10 h-10 rounded-md border border-gray-300 shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none "
+        className="absolute top-1 left-4 inline-flex justify-center items-center w-10 h-10 bg-transparent text-black hover:bg-gray-200 text-lg font-semibold rounded-lg focus:outline-none "
       >
         <svg
-          className="w-6 h-6"
+          className="w-8 h-8"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -77,7 +77,7 @@ const Sidebar = () => {
                     className="flex items-center w-full p-2 text-base text-white transition duration-75 group hover:bg-[#004B14] py-4"
                     onClick={toggleDropdown}
                   >
-                    <span className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap ">
+                    <span className="flex-1 text-left rtl:text-right whitespace-nowrap ">
                       Campeonatos
                     </span>
                     <svg
