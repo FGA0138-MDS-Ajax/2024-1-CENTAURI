@@ -148,7 +148,7 @@ const Sidebar = () => {
                     <ul className="flex py-1 space-x-0">
                       <li>
                         <a
-                          href="/auth/home/Times/Bragantino"
+                          href="/home/times/Bragantino"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                            <img src="https://logodetimes.com/times/red-bull-bragantino/logo-red-bull-bragantino-1536.png" alt="Red Bull Bragantino" className="w-11 h-11 mr-1 ml-1" />
@@ -157,7 +157,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Cuiaba"
+                          href="/home/times/Cuiaba"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/cuiaba/logo-cuiaba-1536.png" alt="Cuiabá" className="w-11 h-11 mr-2" />
@@ -166,7 +166,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Internacional"
+                          href="/home/times/Internacional"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/internacional/logo-internacional-1536.png" alt="Internacional" className="w-11 h-11 mr-2" />
@@ -175,7 +175,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Palmeiras"
+                          href="/home/times/Palmeiras"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/palmeiras/logo-palmeiras-1536.png" alt="Palmeiras" className="w-11 h-11 mr-2" />
@@ -190,7 +190,7 @@ const Sidebar = () => {
                     <ul className="flex py-1 space-x-0">
                       <li>
                         <a
-                          href="/auth/home/Times/Fortaleza"
+                          href="/home/times/Fortaleza"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/fortaleza/logo-fortaleza-1536.png" alt="Fortaleza" className="w-11 h-11 mr-2" />
@@ -199,7 +199,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Vasco"
+                          href="/home/times/Vasco"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/vasco-da-gama/logo-vasco-da-gama-1536.png" alt="Vasco" className="w-11 h-11 mr-2" />
@@ -208,7 +208,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Fluminense"
+                          href="/home/times/Fluminense"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/fluminense/logo-fluminense-1536.png" alt="Fluminense" className="w-11 h-11 mr-2" />
@@ -217,7 +217,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Cruzeiro"
+                          href="/home/times/Cruzeiro"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/cruzeiro/logo-cruzeiro-1536.png" alt="Cruzeiro" className="w-11 h-11 mr-2" />
@@ -230,7 +230,7 @@ const Sidebar = () => {
                     <ul className="flex py-1 space-x-0">
                       <li>
                         <a
-                          href="/auth/home/Times/Botafogo"
+                          href="/home/times/Botafogo"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/botafogo/logo-botafogo-2048.png" alt="Botafogo" className="w-11 h-11 mr-2" />
@@ -239,7 +239,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Bahia"
+                          href="/home/times/Bahia"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/bahia/logo-bahia-2048.png" alt="Bahia" className="w-11 h-11 mr-2" />
@@ -248,7 +248,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Atletico_Paranaense"
+                          href="/home/times/Atletico_Paranaense"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/atletico-paranaense/logo-atletico-paranaense-2048.png" alt="Atletico Paranaense" className="w-11 h-11 mr-2" />
@@ -257,7 +257,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Atletico_Mineiro"
+                          href="/home/times/Atletico_Mineiro"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/atletico-mineiro/logo-atletico-mineiro-2048.png" alt="Atletico Mineiro" className="w-11 h-11 mr-2" />
@@ -270,7 +270,7 @@ const Sidebar = () => {
                     <ul className="flex py-1 space-x-0">
                       <li>
                         <a
-                          href="/auth/home/Times/Sao_Paulo"
+                          href="/home/times/Sao_Paulo"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/sao-paulo/logo-sao-paulo-2048.png" alt="São Paulo" className="w-11 h-11 mr-2" />
@@ -279,7 +279,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Gremio"
+                          href="/home/times/Gremio"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/gremio/logo-gremio-2048.png" alt="Grêmio" className="w-11 h-11 mr-2" />
@@ -288,7 +288,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/America_Mineiro"
+                          href="/home/times/America_Mineiro"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/america-mineiro/logo-america-mineiro-2048.png" alt="América Mineiro" className="w-11 h-11 mr-2" />
@@ -297,7 +297,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Flamengo"
+                          href="/home/times/Flamengo"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/flamengo/logo-flamengo-2048.png" alt="Flamengo" className="w-11 h-11 mr-2" />
@@ -310,7 +310,7 @@ const Sidebar = () => {
                     <ul className="flex py-1 space-x-0">
                       <li>
                         <a
-                          href="/auth/home/Times/Corinthias"
+                          href="/home/times/Corinthias"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/corinthians/logo-corinthians-2048.png" alt="Corinthias" className="w-11 h-11 mr-2" />
@@ -319,7 +319,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Criciuma"
+                          href="/home/times/Criciuma"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/criciuma/logo-criciuma-1.png" alt="Criciuma" className="w-11 h-11 mr-2" />
@@ -328,7 +328,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Juventude"
+                          href="/home/times/Juventude"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/juventude/logo-juventude-2048.png" alt="Juventude" className="w-11 h-11 mr-2" />
@@ -337,7 +337,7 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <a
-                          href="/auth/home/Times/Atletico_Goianiense"
+                          href="/home/times/Atletico_Goianiense"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/atletico-goianiense/logo-atletico-goianiense-512.png" alt="Atletico Goianiense" className="w-11 h-11 mr-2" />
@@ -350,7 +350,7 @@ const Sidebar = () => {
                     <ul className="flex py-1 space-x-0">
                       <li>
                         <a
-                          href="/auth/home/Times/Vitoria"
+                          href="/home/times/Vitoria"
                           className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                         >
                           <img src="https://logodetimes.com/times/vitoria/logo-vitoria-2048.png" alt="Vitória" className="w-11 h-11 mr-2" />

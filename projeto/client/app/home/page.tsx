@@ -31,16 +31,25 @@ export default function HomePage() {
                 font.className
               )}>Time Usuário</h1>
               <br/>
-                <h1 className={cn(
-                'text-4x1 font-semibold text-black drop-shadow-md',
+              
+              <div>
+              <h1 className={cn(
+                'text-2xl font-semibold text-black drop-shadow-md',
                 font.className
               )}>Brasileirão</h1>
+              <br/>
+              
               <GridBrasileirao></GridBrasileirao>
+              <br/>
+              <hr className="my-4 border-1 border-black" />
+              <br/>
               <h1 className={cn(
-                'text-4x1 font-semibold text-black drop-shadow-md',
+                'text-2xl font-semibold text-black drop-shadow-md',
                 font.className
               )}>Libertadores</h1>
+              <br/>
               <GridLiberta></GridLiberta>
+              </div>
             </div>    
           </div>
     </div>   
