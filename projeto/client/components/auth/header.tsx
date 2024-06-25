@@ -18,7 +18,7 @@ export const Header = ({
         <div className="w-full flex flex-col gap-y-4 items-center justify-center">
             <img src="/logo.png" alt="Login Icon" className="w-12 h-auto" />
             <h1 className={cn("text-3xl font-semibold", font.className)}>
-                Login
+                Onde é o Jogo?
             </h1>
             <p className="text-muted-foreground text-sm">
                 {label}

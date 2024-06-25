@@ -65,7 +65,7 @@ export const CadastroForm = () => {
 
     return (
         <CardWrapper
-            headerLabel="Bem vindo!"
+            headerLabel="Cadastro"
             showSocial
         >
             
@@ -147,7 +147,7 @@ export const CadastroForm = () => {
                         type="submit"
                         className="bg-[#005B14] w-full"
                     >
-                        Login
+                        Finalizar Cadastro
                     </Button>
                 </form>
             </Form>
