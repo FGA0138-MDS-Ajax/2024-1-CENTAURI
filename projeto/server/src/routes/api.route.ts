@@ -30,4 +30,22 @@ router.get('/v1/games/:time', async (req, res) => {
     }
 });
 
+router.get('/v2/games/:channel', async (req, res) => {
+    try {
+        const games = await GameRepository.getGamesByChannel(req.params.channel);
+        res.send(games);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+router.get('/v3/games/:campeonato', async (req, res) => {
+    try {
+        const games = await GameRepository.getGamesByCampeonato(req.params.campeonato);
+        res.send(games);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 export default router;
