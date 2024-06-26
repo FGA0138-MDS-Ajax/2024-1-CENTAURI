@@ -525,13 +525,6 @@ const Sidebar = () => {
             </div>
             </div>
             <div className="fixed bottom-0 py-0 space-y-2">
-              <button
-                type="button"
-                className="flex items-center p-4 text-base text-white transition duration-75 group hover:bg-[#004B14]"
-              >
-                <span className="flex-1 text-left rtl:text-right whitespace-nowrap">
-                </span>
-              </button>
               <li>
                 <a
                   href="/settings"
