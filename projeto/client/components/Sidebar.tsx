@@ -71,7 +71,7 @@ const Sidebar = () => {
                 Menu
               </span>
               <nav className="mt-0">
-                <li className="relative">
+                <ol className="relative">
                   <button
                     type="button"
                     className="flex items-center w-full p-2 text-base text-white transition duration-75 group hover:bg-[#004B14] py-4"
@@ -116,10 +116,10 @@ const Sidebar = () => {
                       </li>
                     </ul>
                   )}
-                </li>
+                </ol>
               </nav>
               <nav className="mt-0">
-                <li className="relative">
+                <ol className="relative">
                   <button
                     type="button"
                     className="flex items-center w-full p-2 text-base text-white transition duration-75  group hover:bg-[#004B14] py-4"
@@ -359,7 +359,7 @@ const Sidebar = () => {
                       </li>
                     </ul>
                   )}
-                </li>
+                </ol>
               </nav>
             </div>
             
