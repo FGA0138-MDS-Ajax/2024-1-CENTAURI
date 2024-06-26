@@ -455,7 +455,7 @@ const Sidebar = () => {
                           </li>
                           <li>
                             <a
-                              href="/home/timesSa/penarol"
+                              href="/home/timesSa/Penarol"
                               className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                             >
                               <img src="https://logodetimes.com/times/penarol/logo-penarol-4096.png" alt="Peñarol" className="w-11 h-11 mr-2" />
