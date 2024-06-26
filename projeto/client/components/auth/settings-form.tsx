@@ -64,9 +64,7 @@ export const SettingsForm = () => {
     return (
         <CardWrapper
             headerLabel="Altere seu perfil"
-            showSocial
-        >
-            
+        >   
             <Form {...form}>
                 <form 
                 onSubmit={form.handleSubmit(onSubmit)}
