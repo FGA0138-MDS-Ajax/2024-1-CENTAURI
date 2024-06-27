@@ -1,6 +1,7 @@
 import {z} from 'zod';
 
 export const GameSchema = z.object({
+    rodada: z.number(),
     campeonato: z.string(),
     hora: z.string().regex(/^\d{2}h\d{2}$/, "Invalid time format").transform((val) => {
         const [hours, minutes] = val.split('h').map(Number);
@@ -17,6 +18,7 @@ export const GameSchema = z.object({
 });
 
 export const InsertGameSchema = z.object({
+    rodada: z.number(),
     campeonato: z.string(),
     hora: z.string(),
     time1: z.string(),
@@ -34,5 +36,10 @@ export const GameChannelSchema = z.object({
     time_2: z.string(),
     channels: z.array(z.string())
 });
+
+export const rodadaSchema = z.object({
+    rodada: z.number()
+});
+export type Rodada = z.infer<typeof rodadaSchema>;
 
 export type GameChannel = z.infer<typeof GameChannelSchema>;
