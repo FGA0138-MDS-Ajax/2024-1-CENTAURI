@@ -1,16 +1,16 @@
 export class Match {
   campeonato: string;
-  data_hora: Date;
+  data_hora: Date | null;
   time1: string;
   time2: string;
   channels: string[];
 
   constructor(
-    campeonato: string,
-    data_hora: string,
-    time1: string,
-    time2: string,
-    channels: string[]
+      campeonato: string,
+      data_hora: string,
+      time1: string,
+      time2: string,
+      channels: string[]
   ) {
     this.campeonato = campeonato;
     this.data_hora = this.parseDate(data_hora);
@@ -19,7 +19,11 @@ export class Match {
     this.channels = channels;
   }
 
-  private parseDate(dateString: string): Date {
+  private parseDate(dateString: string): Date | null {
+    if (!dateString || dateString.toLowerCase() === "sem jogos") {
+      console.warn('Date string is undefined, empty or "Sem Jogos"');
+      return null;
+    }
     const [datePart, timePart] = dateString.split(' ');
     const [day, month, year] = datePart.split('/').map(Number);
     const [hours, minutes] = timePart.split(':').map(Number);
@@ -27,6 +31,9 @@ export class Match {
   }
 
   public formatDate(): string {
+    if (this.data_hora === null) {
+      return "Sem Jogos";
+    }
     const day = String(this.data_hora.getDate()).padStart(2, '0');
     const month = String(this.data_hora.getMonth() + 1).padStart(2, '0');
     const year = this.data_hora.getFullYear();
@@ -35,4 +42,3 @@ export class Match {
     return `${day}/${month}/${year} - ${hours}:${minutes}`;
   }
 }
-  
