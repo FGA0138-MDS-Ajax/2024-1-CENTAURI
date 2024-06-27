@@ -3,7 +3,7 @@ import ScrapingRepository from '../repositories/scraping.repository';
 
 const router = Router();
 
-router.get("test/v1/scraping", async (req, res) => {
+router.get("/v1/scraping", async (req, res) => {
     try{
         let response = await ScrapingRepository.scrapingUrl1();
         res.send(response);
@@ -13,7 +13,7 @@ router.get("test/v1/scraping", async (req, res) => {
     }
 });
 
-router.get("test/v2/scraping", async (req, res) => {
+router.get("/v2/scraping", async (req, res) => {
     try{
         let response = await ScrapingRepository.scrapingUrl2();
         res.send(response);
@@ -23,7 +23,7 @@ router.get("test/v2/scraping", async (req, res) => {
     }
 });
 
-router.get("test/v3/scraping", async (req, res) => {
+router.get("/v3/scraping", async (req, res) => {
     try{
         let response = await ScrapingRepository.scrapingUrlLiberta();
         res.send(response);

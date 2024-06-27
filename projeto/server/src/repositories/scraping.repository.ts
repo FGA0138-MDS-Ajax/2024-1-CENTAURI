@@ -89,6 +89,7 @@ class ScrapingRepository {
                         datetime.setMilliseconds(0);
 
                         games.push({
+                            rodada: 0,
                             campeonato: "Brasileirão",
                             hora: datetime,
                             time1: time1,
@@ -112,6 +113,8 @@ class ScrapingRepository {
             const response = await fetchWithRetry(url2, 3, 2000); // 3 retries com 2 segundos de atraso
             const html = response.data;
             const $ = cheerio.load(html);
+            let rodadaMatch: string | string[] | null;
+            let rodada: number;
 
             const months: { [key: string]: string } = {
                 janeiro: "01",
@@ -129,6 +132,18 @@ class ScrapingRepository {
             };
 
             const games: Game[] = [];
+            $('h2').each((index, element) => {
+                const hTexto = $(element).text().trim();
+                console.log(`Processing header: ${hTexto}`);
+                const rodadaRegex = /\d{1,2}ª\s+rodada/u;
+                rodadaMatch = rodadaRegex.exec(hTexto);
+                console.log(`Extracted round: ${rodadaMatch}`);
+                if (rodadaMatch != null) {
+                    rodada = parseInt((rodadaMatch[0].split('ª')[0]));
+                    console.log(`Extracted round: ${rodada}`);
+                }
+            });
+
             $('p').each((index, element) => {
                 const pTexto = $(element).text().trim();
                 console.log(`Processing paragraph: ${pTexto}`);
@@ -137,6 +152,7 @@ class ScrapingRepository {
                 const dataMatch = dataRegex.exec(pTexto);
                 const dia = dataMatch ? dataMatch[1] : null;
                 const mes = dataMatch ? months[dataMatch[2]] : null;
+
 
                 console.log(`Extracted date - Day: ${dia}, Month: ${mes}`);
 
@@ -177,6 +193,7 @@ class ScrapingRepository {
                             console.log(`Game datetime: ${datetime}`);
 
                             games.push({
+                                rodada: rodada,
                                 campeonato: "Brasileirão",
                                 hora: datetime,
                                 time1: time1,
@@ -259,6 +276,7 @@ class ScrapingRepository {
                             console.log(`Game datetime: ${datetime}`);
 
                             games.push({
+                                rodada: 0,
                                 campeonato: "Libertadores",
                                 hora: datetime,
                                 time1: time1,

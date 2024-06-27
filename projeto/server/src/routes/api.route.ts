@@ -48,4 +48,41 @@ router.get('/v3/games/:campeonato', async (req, res) => {
     }
 });
 
+router.get('/v4/games/:quantidade', async (req, res) => {
+    try {
+        const games = await GameRepository.getGamesByQuantidade((req.params.quantidade));
+        res.send(games);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+router.get('/v1/rodada' , async (req, res) => {
+    try {
+        const rodada = await GameRepository.getRodada();
+        const rodadaJson = JSON.stringify(rodada);
+        res.send(rodadaJson);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+router.get('/v1/games/brasileirao/:favorito', async (req, res) => {
+    try {
+        const games = await GameRepository.getGamesBrasileiraoByFavorito(req.params.favorito);
+        res.send(games);
+    } catch (error) {
+        res.status(500).send(error)
+        }
+});
+
+router.get('/v1/games/liberta/:favorito', async (req, res) => {
+    try {
+        const games = await GameRepository.getGamesLibertaByFavorito(req.params.favorito);
+        res.send(games);
+    } catch (error) {
+        res.status(500).send(error)
+    }
+});
+
 export default router;
