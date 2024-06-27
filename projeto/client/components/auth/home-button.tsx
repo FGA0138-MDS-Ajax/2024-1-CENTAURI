@@ -16,7 +16,7 @@ export const HomeButton = ({
     const router = useRouter();
 
     const onClick = () => {
-        router.push("/auth/home");
+        router.push("/home");
     };
 
     if (mode === "modal") {

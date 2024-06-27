@@ -21,3 +21,10 @@ export const CadastroSchema = z.object({
         message: "Senha inválida"
     }),
 });
+
+export const SettingsSchema = z.object({
+    time: z.string(),
+    usuario: z.string().min(2, {
+        message: "Usuário inválido"
+    }),
+});

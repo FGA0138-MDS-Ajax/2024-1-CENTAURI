@@ -2,11 +2,10 @@
 
 import * as z from "zod";
 
-import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { CadastroSchema } from "@/schemas";
+import { SettingsSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import {
     Form,
@@ -16,13 +15,13 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-
+import React from "react";
 import Select from "react-select";
 import { CardWrapper } from "./card-register"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-sucess";
-import { cadastro } from "@/actions/cadastro";
+import { Label } from "../ui/label";
 
 const TimeSelect = [
     { value: "America_Mineiro", label: "America Mineiro" },
@@ -49,31 +48,23 @@ const TimeSelect = [
 ]
 
 
-export const CadastroForm = () => {
-    const [error, setError] = useState<string | undefined>("");
-    const [success, setSuccess] = useState<string | undefined>("");
-    const [isPending, startTransition] = useTransition();
-
-    const form = useForm<z.infer<typeof CadastroSchema>>({
-        resolver: zodResolver(CadastroSchema),
+export const SettingsForm = () => {
+    const form = useForm<z.infer<typeof SettingsSchema>>({
+        resolver: zodResolver(SettingsSchema),
         defaultValues: {
             time:"",
             usuario: "",
-            email: "",
-            password: "",
         },
     });
 
-    const onSubmit = (values: z.infer<typeof CadastroSchema>) => {
+    const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
         console.log(values);
     }
 
     return (
         <CardWrapper
-            headerLabel="Cadastro"
-            showSocial
-        >
-            
+            headerLabel="Altere seu perfil"
+        >   
             <Form {...form}>
                 <form 
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -95,6 +86,7 @@ export const CadastroForm = () => {
                                 </FormItem>
                             )}
                         ></FormField>
+                        <br/>
                         <FormField
                             control={form.control}
                             name="usuario"
@@ -111,40 +103,7 @@ export const CadastroForm = () => {
                                 </FormItem>
                             )}
                         ></FormField>
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                        {...field}
-                                        placeholder="john.fanatico@exemplo.com"
-                                        type="email"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                         <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Senha</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                        {...field}
-                                        placeholder="******"
-                                        type="password"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        
                     </div>
                     <FormError message=""/>
                     <FormSuccess message=""/>
@@ -152,7 +111,7 @@ export const CadastroForm = () => {
                         type="submit"
                         className="bg-[#005B14] w-full"
                     >
-                        Finalizar Cadastro
+                        Salvar
                     </Button>
                 </form>
             </Form>
