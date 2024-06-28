@@ -22,7 +22,7 @@ import { CardWrapper } from "./card-register"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-sucess";
-import { cadastro } from "@/actions/cadastro";
+import { register } from "@/actions/cadastro";
 
 const TimeSelect = [
     { value: "America_Mineiro", label: "America Mineiro" },
@@ -65,8 +65,17 @@ export const CadastroForm = () => {
     });
 
     const onSubmit = (values: z.infer<typeof CadastroSchema>) => {
-        console.log(values);
-    }
+        setError("");
+        setSuccess("");
+        
+        startTransition(() => {
+            register(values)
+            .then((data) => {
+                setError(data.error);
+                setSuccess(data.success);
+            })
+        });
+    };
 
     return (
         <CardWrapper
@@ -146,9 +155,10 @@ export const CadastroForm = () => {
                             )}
                         />
                     </div>
-                    <FormError message=""/>
-                    <FormSuccess message=""/>
+                    <FormError message={error}/>
+                    <FormSuccess message={success}/>
                     <Button
+                    disabled={isPending}
                         type="submit"
                         className="bg-[#005B14] w-full"
                     >
