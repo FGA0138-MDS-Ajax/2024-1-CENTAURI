@@ -22,7 +22,7 @@ import { CardWrapper } from "./card-register"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-sucess";
-import { cadastro } from "@/actions/cadastro";
+import { register } from "@/actions/cadastro";
 
 const TimeSelect = [
     { value: "America_Mineiro", label: "America Mineiro" },
