@@ -8,7 +8,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-import { Match } from "@/app/models/match";
+import { Match } from "@/models/match";
 
 interface CardTimesProps {
     match: Match;

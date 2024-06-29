@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Match } from '@/app/models/match';
+import { Match } from '@/models/match';
 import { Bebas_Neue } from 'next/font/google';
 import { GridTimes } from '@/components/home/grid';
 import { CardTimes } from '@/components/home/card-times';

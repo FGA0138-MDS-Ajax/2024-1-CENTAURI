@@ -23,6 +23,8 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-sucess";
 import { register } from "@/actions/cadastro";
+import { Controller } from "react-hook-form";
+import {redirect} from "next/navigation";
 
 const TimeSelect = [
     { value: "America_Mineiro", label: "America Mineiro" },
@@ -57,7 +59,7 @@ export const CadastroForm = () => {
     const form = useForm<z.infer<typeof CadastroSchema>>({
         resolver: zodResolver(CadastroSchema),
         defaultValues: {
-            time:"",
+            time: "",
             usuario: "",
             email: "",
             password: "",
@@ -65,61 +67,67 @@ export const CadastroForm = () => {
     });
 
     const onSubmit = (values: z.infer<typeof CadastroSchema>) => {
+        const payload = {
+            nome: values.usuario,
+            email: values.email,
+            time_favorito: values.time,
+            senha: values.password
+        };
         setError("");
         setSuccess("");
-        
+
         startTransition(() => {
-            register(values)
-            .then((data) => {
-                setError(data.error);
-                setSuccess(data.success);
-            })
+            register(values).then((data) => {
+                if (data.error) {
+                    setError(error);
+                } else {
+                    setSuccess("Cadastro realizado com sucesso!");
+                    form.reset();
+                    window.location.href = '/auth/login'
+                }
+            });
         });
     };
 
+
     return (
-        <CardWrapper
-            headerLabel="Cadastro"
-            showSocial
-        >
-            
+        <CardWrapper headerLabel="Cadastro" showSocial>
             <Form {...form}>
-                <form 
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
-                >
-                    <div className="sapace-y-4">
-                        <FormField
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="space-y-4">
+                        <Controller
                             control={form.control}
                             name="time"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Time</FormLabel>
                                     <FormControl>
-                                    <Select
-                                        options={TimeSelect}
-                                    >
-                                    </Select>
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        ></FormField>
-                        <FormField
-                            control={form.control}
-                            name="usuario"
-                            render={({ field}) => (
-                                <FormItem>
-                                    <FormLabel>Usuário</FormLabel>
-                                    <FormControl>
-                                        <Input 
-                                        {...field}
-                                        placeholder="usuário"
-                                        type="text"
+                                        <Select
+                                            {...field}
+                                            options={TimeSelect}
+                                            value={TimeSelect.find(option => option.value === field.value)}
+                                            onChange={(option) => field.onChange(option ? option.value : '')}
                                         />
                                     </FormControl>
                                 </FormItem>
                             )}
-                        ></FormField>
+                        />
+                        <FormField
+                            control={form.control}
+                            name="usuario"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Usuário</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            placeholder="usuário"
+                                            type="text"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="email"
@@ -128,16 +136,16 @@ export const CadastroForm = () => {
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
                                         <Input
-                                        {...field}
-                                        placeholder="john.fanatico@exemplo.com"
-                                        type="email"
+                                            {...field}
+                                            placeholder="john.fanatico@exemplo.com"
+                                            type="email"
                                         />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                         <FormField
+                        <FormField
                             control={form.control}
                             name="password"
                             render={({ field }) => (
@@ -145,9 +153,9 @@ export const CadastroForm = () => {
                                     <FormLabel>Senha</FormLabel>
                                     <FormControl>
                                         <Input
-                                        {...field}
-                                        placeholder="******"
-                                        type="password"
+                                            {...field}
+                                            placeholder="******"
+                                            type="password"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -155,13 +163,9 @@ export const CadastroForm = () => {
                             )}
                         />
                     </div>
-                    <FormError message={error}/>
-                    <FormSuccess message={success}/>
-                    <Button
-                    disabled={isPending}
-                        type="submit"
-                        className="bg-[#005B14] w-full"
-                    >
+                    <FormError message={error} />
+                    <FormSuccess message={success} />
+                    <Button type="submit" className="bg-[#005B14] w-full">
                         Finalizar Cadastro
                     </Button>
                 </form>

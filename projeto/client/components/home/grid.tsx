@@ -1,6 +1,6 @@
 "use client";
 
-import { Match } from "@/app/models/match";
+import { Match } from "@/models/match";
 import { CardTimes } from "@/components/home/card-times";
 import {useEffect, useState} from "react";
 

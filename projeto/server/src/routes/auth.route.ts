@@ -15,9 +15,15 @@ router.get('/v1/favorito', async (req, res) => {
 });
 
 router.post('/register', async(req, res) => {
-    const user = createUsuarioSchema.parse(req.body);
+    const userData = {
+        nome: req.body.usuario,
+        email: req.body.email,
+        time_favorito: req.body.time,
+        senha: req.body.password
+    };
+    console.log(userData);
     try{
-        const result = await AuthRepository.registerUser(user);
+        const result = await AuthRepository.registerUser(userData);
         res.send(result);
     }
     catch(err) {
