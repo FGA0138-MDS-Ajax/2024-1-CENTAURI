@@ -65,8 +65,17 @@ export const CadastroForm = () => {
     });
 
     const onSubmit = (values: z.infer<typeof CadastroSchema>) => {
-        console.log(values);
-    }
+        setError("");
+        setSuccess("");
+        
+        startTransition(() => {
+            register(values)
+            .then((data) => {
+                setError(data.error);
+                setSuccess(data.success);
+            })
+        });
+    };
 
     return (
         <CardWrapper
@@ -146,9 +155,10 @@ export const CadastroForm = () => {
                             )}
                         />
                     </div>
-                    <FormError message=""/>
-                    <FormSuccess message=""/>
+                    <FormError message={error}/>
+                    <FormSuccess message={success}/>
                     <Button
+                    disabled={isPending}
                         type="submit"
                         className="bg-[#005B14] w-full"
                     >
