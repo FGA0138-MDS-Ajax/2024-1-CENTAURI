@@ -16,7 +16,7 @@ export const CadastroButton = ({
     const router = useRouter();
 
     const onClick = () => {
-        router.push("/register");
+        router.push("/auth/register");
     };
 
     if (mode === "modal") {
