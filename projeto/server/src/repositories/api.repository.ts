@@ -267,6 +267,16 @@ class GameRepository {
         }
     }
 
+    async getCanais(): Promise<string[]> {
+        try {
+            const [response]: [any[], any[]] = await mysqlConn.execute("SELECT NOME_CANAL FROM CANAL");
+            return response.map((canal: any) => canal.NOME_CANAL);
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    }
+
 }
 
 export default new GameRepository();
