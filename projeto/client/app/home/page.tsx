@@ -55,6 +55,10 @@ export default function HomePage() {
             });
     }, []);
 
+    if(rodada === 0){
+        setRodada(13);
+    }
+
     useEffect(() => {
         if (favorito) {
             fetch(`http://localhost:8000/api/v1/games/brasileirao/${favorito}`)
