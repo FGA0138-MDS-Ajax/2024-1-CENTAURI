@@ -27,7 +27,6 @@ router.post('/register', async(req, res) => {
         time_favorito: req.body.time,
         senha: req.body.password
     };
-    console.log(userData);
     try{
         const result = await AuthRepository.registerUser(userData);
         res.send(result);

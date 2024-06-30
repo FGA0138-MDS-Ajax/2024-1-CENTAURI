@@ -32,4 +32,14 @@ router.get("/v3/scraping", async (req, res) => {
         res.status(500).send
     }
 });
+
+router.get("/v4/scraping", async (req, res) => {
+    try{
+        let response = await ScrapingRepository.scrapingUrl3();
+        res.send(response);
+    }
+    catch(error) {
+        res.status(500).send
+    }
+});
 export default router;

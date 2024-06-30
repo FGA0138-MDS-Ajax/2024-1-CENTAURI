@@ -3,8 +3,9 @@ import * as cheerio from 'cheerio';
 import { type Game } from '../schemas/api.schema';
 
 const url1 = 'https://mantosdofutebol.com.br/guia-de-jogos-tv-hoje-ao-vivo/';
-const url2 = 'https://olympics.com/pt/noticias/campeonato-brasileiro-2024-jogo-tv-aberta'
-const urlLibertadores = "https://olympics.com/pt/noticias/copa-libertadores-2024-datas-horarios-assistir-oitavas"
+const url2 = 'https://olympics.com/pt/noticias/campeonato-brasileiro-2024-jogo-tv-aberta';
+const urlLibertadores = "https://olympics.com/pt/noticias/copa-libertadores-2024-datas-horarios-assistir-oitavas";
+const url3 = "https://www.goal.com/br/listas/futebol-programacao-jogos-tv-aberta-fechada-onde-assistir-online-app/bltc0a7361374657315#csc6e452da8aa3b28e";
 
 function formatDate(date: Date) {
     const day = String(date.getDate()).padStart(2, '0');
@@ -32,10 +33,42 @@ const A: AxiosInstance = axios.create({
     timeout: 10000
 });
 
+const B: AxiosInstance = axios.create({
+    headers: {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Cache-Control': 'max-age=0',
+        'Connection': 'keep-alive',
+        'Host': 'www.goal.com',
+        'Referer': 'https://www.goal.com',
+        'Upgrade-Insecure-Requests': '1',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
+    },
+    timeout: 10000
+});
+
 async function fetchWithRetry(url: string, retries: number, delayMs: number): Promise<AxiosResponse<any>> {
     for (let i = 0; i < retries; i++) {
         try {
             return await A.get(url);
+        } catch (error) {
+            console.error(`Attempt ${i + 1} failed. Error: ${error}`);
+            if (i < retries - 1) {
+                console.warn(`Retrying in ${delayMs}ms...`);
+                await delay(delayMs);
+            } else {
+                throw error;
+            }
+        }
+    }
+    throw new Error('Maximum retries reached');
+}
+
+async function fetchWithRetry2(url: string, retries: number, delayMs: number): Promise<AxiosResponse<any>> {
+    for (let i = 0; i < retries; i++) {
+        try {
+            return await B.get(url);
         } catch (error) {
             console.error(`Attempt ${i + 1} failed. Error: ${error}`);
             if (i < retries - 1) {
@@ -77,8 +110,9 @@ class ScrapingRepository {
                     const time1 = timesMatch ? timesMatch[1] : null;
                     const time2 = timesMatch ? timesMatch[2] : null;
 
-                    const canais = pTexto.match(/Canais:\s*(.+)/);
-                    const canaisList = canais ? canais[1].split(' e ') : [];
+                    const canaisLimpo = pTexto.replace(/\s*\([^)]*\)/g, '');
+                    const canais = canaisLimpo.match(/Canais:\s*([^]+)/);
+                    const canaisList = canais ? canais[1].split(/\s+e\s+/).map(s => s.trim()): [];
 
                     if (hora && time1 && time2 && canaisList.length > 0) {
                         const [hours, minutes] = hora.split('h').map(Number);
@@ -293,6 +327,21 @@ class ScrapingRepository {
             return games;
         } catch (error) {
             console.error('Error during scraping URL Libertadores:', error);
+            return [];
+        }
+    }
+    //@ts-ignore
+    async scrapingUrl3(): Promise<Game[]> {
+        try {
+            const response = await fetchWithRetry2(url3, 3, 2000); // 3 retries com 2 segundos de atraso
+            const html = response.data;
+            const $ = cheerio.load(html);
+
+            console.log('Scraping URL3');
+            console.log('HTML:', html);
+        }
+        catch (error) {
+            console.error('Error during scraping URL3:', error);
             return [];
         }
     }
