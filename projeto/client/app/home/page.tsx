@@ -1,73 +1,147 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Match } from '@/app/models/match';
+import { Match } from '@/models/match';
 import { Bebas_Neue } from 'next/font/google';
-import { GridTimes } from '@/components/auth/home/grid';
-import { CardTimes } from '@/components/auth/home/card-times';
-
+import { GridTimes } from '@/components/home/grid';
+import { CardTimes } from '@/components/home/card-times';
+import { useSession } from "next-auth/react";
+import { CardCanais } from '@/components/home/card-canais';
 
 const font = Bebas_Neue({
-  subsets: ['latin'],
-  weight: ['400'],
+    subsets: ['latin'],
+    weight: ['400'],
 });
 
 const h1ClassName = "text-4xl font-semibold text-black drop-shadow-md text-center mt-8 mb-8";
 const h2ClassName = "text-3xl font-semibold text-black drop-shadow-md";
-const divCardsClassName = "w-full pt-4 pb-4";
 
-// Partidas exemplos
-const lib = new Match("Libertadores", "24/06/2024 13:30", "Time A", "Time B", ["Globo", "SporTV"]);
-const br = new Match("Brasileirão", "24/06/2024 13:30", "Time A", "Time B", ["Globo", "SporTV"]);
+const lib = new Match("Libertadores", "Sem Jogos", "", "", [""]);
+const br = new Match("Brasileirão", "Sem Jogos", "", "", [""]);
+const canais = ["Sportv", "Premiere", "Globo", "ESPN", "Disney+", "Paramount+"].sort();
 
 export default function HomePage() {
-  return (
-    <div className="min-h-full w-full">
-      <div className="h-full grid grid-cols-2 divide-x-2 divide-black">
+    const [favorito, setFavorito] = useState<string | undefined>();
+    const [rodada, setRodada] = useState<number>(0);
+    const [jogoBr, setJogoBr] = useState<Match>(br);
+    const [jogoLib, setJogoLib] = useState<Match>(lib);
 
-        <div className="pt-2 pl-4 pr-4">
-          <h1 className={cn(h1ClassName,font.className
-          )}>Rodada X</h1>
-          <GridTimes />
-        </div>
+    const { data: session, status } = useSession();
+    const id = session?.user?.id;
 
-        <div className="pt-2 pl-4 pr-4">
-          <h1 className={cn(h1ClassName,font.className)}
-          >Time Usuário</h1>
-          
-          <div className="grid grid-rows-3 divide-y-2 divide-black content-between">
-            <div className="w-full pb-4">
-              <h2 className={cn(
-                h2ClassName,font.className)}
-                >Brasileirão</h2>
 
-              <div className='w-432px mx-auto'>
-                <CardTimes  match={br}/>
-              </div>  
+    useEffect(() => {
+        if (id) {
+            fetch(`http://localhost:8000/auth/v1/favorito/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    setFavorito(data.TIME_FAVORITO);
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar os dados:', error);
+                });
+        }
+    }, [id]);
 
-            </div>
-            
-            <div className={divCardsClassName}>
-              <h2 className={cn(h2ClassName,font.className)}
-                >Libertadores</h2>
+    useEffect(() => {
+        fetch("http://localhost:8000/api/v1/rodada")
+            .then(response => response.json())
+            .then(data => {
+                setRodada(data);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar os dados:', error);
+            });
+    }, []);
 
-                <div className='w-432px mx-auto'>
-                  <CardTimes match={lib}/>
+    useEffect(() => {
+        if (favorito) {
+            fetch(`http://localhost:8000/api/v1/games/brasileirao/${favorito}`)
+                .then(response => response.json())
+                .then(data => {
+                    const jogoBrData = data[0];
+                    if (jogoBrData.campeonato && jogoBrData.data_hora && jogoBrData.time_1 && jogoBrData.time_2 && jogoBrData.channels) {
+                        const JogoBR = new Match(jogoBrData.campeonato, jogoBrData.data_hora, jogoBrData.time_1, jogoBrData.time_2, jogoBrData.channels);
+                        console.log(JogoBR);
+                        setJogoBr(JogoBR);
+                    } else {
+                        console.error('Dados inválidos recebidos da API', jogoBrData);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar o jogo do Brasileirão:', error);
+                });
+        }
+    }, [favorito]);
+
+    useEffect(() => {
+        if (favorito) {
+            fetch(`http://localhost:8000/api/v1/games/liberta/${favorito}`)
+                .then(response => response.json())
+                .then(data => {
+                    const jogoLibData = data[0];
+                    if (jogoLibData.campeonato && jogoLibData.data_hora && jogoLibData.time_1 && jogoLibData.time_2 && jogoLibData.channels) {
+                        const JogoLib = new Match(jogoLibData.campeonato, jogoLibData.data_hora, jogoLibData.time_1, jogoLibData.time_2, jogoLibData.channels);
+                        console.log(JogoLib);
+                        setJogoLib(JogoLib);
+                    } else {
+                        console.error('Dados inválidos recebidos da API', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar o jogo da Libertadores:', error);
+                });
+        }
+    }, [favorito]);
+
+    if (status === 'loading') {
+        return <div>Loading...</div>;
+    }
+
+    if (!id) {
+        return <div>User not logged in</div>;
+    }
+
+    return (
+        <div className="h-full">
+            <div className="grid grid-cols-2 divide-x-2 divide-black content-start">
+    
+                <div className="pt-2 pl-4 pr-4 pb-2">
+                    <h1 className={cn(h1ClassName, font.className)}>Rodada {rodada}</h1>
+                    <GridTimes />
                 </div>
-            </div>
-            
-            <div className={divCardsClassName}>
-            <h2 className={cn(h2ClassName,font.className)}
-                >Canais de Transmissão</h2>
-            </div>
+    
+                <div className="pt-2 pl-4 pr-4 pb-2">
+                    <h1 className={cn(h1ClassName, font.className)}>{favorito}</h1>
+    
+                    <div className="grid grid-rows-3 divide-y-2 divide-black gap-2">
+                        <div className="pb-2">
+                            <h2 className={cn(h2ClassName, font.className)}>Brasileirão</h2>
+                            <div className='w-432px mx-auto'>
+                                <CardTimes match={jogoBr} />
+                            </div>
+                        </div>
+    
+                        <div className="pb-2">
+                            <h2 className={cn(h2ClassName, font.className)}>Libertadores</h2>
+                            <div className='w-432px mx-auto'>
+                                <CardTimes match={jogoLib} />
+                            </div>
+                        </div>
+    
+                        <div className="pt-2 pb-2">
+                            <h2 className={cn(h2ClassName, font.className)}>Canais de Transmissão</h2>
+                            <div>
+                                <CardCanais canais={canais}/>
+                            </div>
+                        </div>
 
-          </div>
-
+                    </div>
+                    
+                </div>
+    
+            </div>
         </div>
-
-      </div>
-    </div>
-
-  );
+    );
 };

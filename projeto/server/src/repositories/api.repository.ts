@@ -1,6 +1,11 @@
-import { mysqlConn } from '../base/mysql';
+import {mysqlConn} from '../base/mysql';
 import ScrapingRepository from '../repositories/scraping.repository';
-import {GameSchema, InsertGameSchema, InsertGame, GameChannel, GameChannelSchema} from '../schemas/api.schema';
+import {
+    GameChannel,
+    GameChannelSchema,
+    InsertGame,
+    InsertGameSchema,
+} from '../schemas/api.schema';
 
 function toMySQLDateTimeString(date: Date): string {
     return date.toISOString().slice(0, 19).replace('T', ' ');
@@ -61,6 +66,7 @@ class GameRepository {
                 const channels = game.channels.length > 2 ? game.channels.slice(0, 2) : game.channels;
 
                 const insertGame: InsertGame = {
+                    rodada: game.rodada,
                     campeonato: game.campeonato,
                     hora: horaMySQL,
                     time1: game.time1,
@@ -79,8 +85,8 @@ class GameRepository {
 
                 if (existingGame.length === 0) {
                     const [result]: any = await mysqlConn.execute(
-                        "INSERT INTO JOGO (TIME_1, TIME_2, DATA_HORA, CAMPEONATO) VALUES (?, ?, ?, ?)",
-                        [game.time1, game.time2, game.hora, game.campeonato]
+                        "INSERT INTO JOGO (TIME_1, TIME_2, DATA_HORA, CAMPEONATO, RODADA) VALUES (?, ?, ?, ?, ?)",
+                        [game.time1, game.time2, game.hora, game.campeonato, game.rodada]
                     );
                     const jogoId = result.insertId;
 
@@ -188,6 +194,79 @@ class GameRepository {
             return []
         }
     }
+
+    async getRodada(): Promise<number> {
+        try {
+            const [response]: [any[], any[]] = await mysqlConn.execute("SELECT RODADA FROM JOGO");
+            const rodada: number = response[0].RODADA;
+            return rodada;
+        } catch (error) {
+            console.error(error);
+            return 0;
+        }
+    }
+
+    async getGamesByQuantidade(quantidade: string): Promise<GameChannel[]> {
+        try {
+            const [games]: any = await mysqlConn.execute(
+                "SELECT J.CAMPEONATO, J.DATA_HORA, J.TIME_1, J.TIME_2, GROUP_CONCAT(C.NOME_CANAL) AS CHANNELS " +
+                "FROM JOGO J " +
+                "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
+                "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
+                "WHERE J.DATA_HORA >= NOW() " +
+                "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO " +
+                "LIMIT ?", [quantidade]
+            );
+
+            return retornaJogos(games);
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    }
+
+    async getGamesBrasileiraoByFavorito(favorito: string): Promise<GameChannel[]> {
+        try {
+            const [games]: any = await mysqlConn.execute(
+                "SELECT J.CAMPEONATO, J.DATA_HORA, J.TIME_1, J.TIME_2, GROUP_CONCAT(C.NOME_CANAL) AS CHANNELS " +
+                "FROM JOGO J " +
+                "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
+                "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
+                "WHERE J.DATA_HORA >= NOW() " +
+                "AND (J.TIME_1 = ? OR J.TIME_2 = ?) " +
+                "AND J.CAMPEONATO = 'Brasileirão' " +
+                "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO "+
+                "LIMIT 1", [favorito, favorito]
+            );
+
+            return retornaJogos(games);
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    }
+
+    async getGamesLibertaByFavorito(favorito: string): Promise<GameChannel[]> {
+        try {
+            const [games]: any = await mysqlConn.execute(
+                "SELECT J.CAMPEONATO, J.DATA_HORA, J.TIME_1, J.TIME_2, GROUP_CONCAT(C.NOME_CANAL) AS CHANNELS " +
+                "FROM JOGO J " +
+                "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
+                "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
+                "WHERE J.DATA_HORA >= NOW() " +
+                "AND (J.TIME_1 = ? OR J.TIME_2 = ?) " +
+                "AND J.CAMPEONATO = 'Libertadores' " +
+                "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO " +
+                "LIMIT 1", [favorito, favorito]
+            );
+
+            return retornaJogos(games);
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    }
+
 }
 
 export default new GameRepository();
