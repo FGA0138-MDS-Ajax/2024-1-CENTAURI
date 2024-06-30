@@ -14,8 +14,8 @@ const font = Bebas_Neue({
     weight: ['400'],
 });
 
-const h1ClassName = "text-4xl font-semibold text-black drop-shadow-md text-center mt-8 mb-8";
-const h2ClassName = "text-3xl font-semibold text-black drop-shadow-md";
+const h1ClassName = "text-4xl font-semibold text-white drop-shadow-md text-center mt-8 mb-8";
+const h2ClassName = "text-3xl font-semibold text-white drop-shadow-md";
 
 const lib = new Match("Libertadores", "Sem Jogos", "", "", [""]);
 const br = new Match("Brasileirão", "Sem Jogos", "", "", [""]);
@@ -109,7 +109,7 @@ export default function HomePage() {
 
     return (
         <div className="h-full">
-            <div className="grid grid-cols-2 divide-x-2 divide-black content-start">
+            <div className="grid grid-cols-2 divide-white content-start">
     
                 <div className="pt-2 pl-4 pr-4 pb-2">
                     <h1 className={cn(h1ClassName, font.className)}>Rodada {rodada}</h1>
@@ -119,7 +119,7 @@ export default function HomePage() {
                 <div className="pt-2 pl-4 pr-4 pb-2">
                     <h1 className={cn(h1ClassName, font.className)}>{favorito}</h1>
     
-                    <div className="grid grid-rows-3 divide-y-2 divide-black gap-2">
+                    <div className="grid grid-rows-3 divide-y-2 divide-white gap-2">
                         <div className="pb-2">
                             <h2 className={cn(h2ClassName, font.className)}>Brasileirão</h2>
                             <div className='w-432px mx-auto'>

@@ -57,7 +57,7 @@ const config = {
         'custom-gray': '#CFCFCF',
       },
       backgroundImage: {
-        'custom-gradient': 'linear-gradient(#005B14, #CFCFCF)',
+        'custom-gradient': 'radial-gradient(circle at center, #003B14, #002B14, #002B14)',
       },
       borderRadius: {
         lg: "var(--radius)",
