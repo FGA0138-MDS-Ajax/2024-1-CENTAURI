@@ -1,7 +1,13 @@
 import {mysqlConn} from '../base/mysql';
-import ScrapingRepository from '../repositories/scraping.repository';
 import { type CreateUsuarioInput } from '../schemas/auth.schema';
 import bcrypt from 'bcrypt';
+
+type User = {
+    id: number;
+    nome: string;
+    email: string;
+    senha_hash: string;
+};
 
 class AuthRepository {
     async registerUser(user: CreateUsuarioInput){
@@ -13,22 +19,49 @@ class AuthRepository {
         );
         return result;
     }
-    async getFavoritoByUser(email: string){
+    async getFavoritoByUser(id: number){
         const conn = await mysqlConn.getConnection();
         const [result] = await conn.query(
-            'SELECT time_favorito FROM USUARIO WHERE email = ?',
-            [email]
+            'SELECT TIME_FAVORITO FROM USUARIO WHERE IDUSUARIO = ?',
+            [id]
         );
-        return result;
+        // @ts-ignore
+        return result[0];
     }
 
-    async login(email: string, senha: string){
-        const conn = await mysqlConn.getConnection();
-        const [results] = await conn.query(
-            'SELECT * FROM USUARIO WHERE email = ? AND senha_hash = ?',
-            [email, senha]
-        );
-        return results;
+    async login(email: string, senha: string):Promise<User | null> {
+        try {
+            const conn = await mysqlConn.getConnection();
+
+            const [results]: [any[], any] = await conn.query(
+                'SELECT IDUSUARIO, NOME, EMAIL, SENHA_HASH FROM USUARIO WHERE email = ?',
+                [email]
+            );
+            conn.release();
+
+            if (results.length === 0) {
+                return null;
+            }
+
+            const dbUser = results[0];
+
+            const user: User = {
+                id: dbUser.IDUSUARIO,
+                nome: dbUser.NOME,
+                email: dbUser.EMAIL,
+                senha_hash: dbUser.SENHA_HASH
+            };
+
+            const isValidPassword = bcrypt.compareSync(senha, user.senha_hash);
+
+            if (!isValidPassword) {
+                return null;
+            }
+            return user;
+        } catch (error) {
+            console.error("Error in AuthRepository.login:", error);
+            throw error;
+        }
     }
 }
 

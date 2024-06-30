@@ -6,6 +6,7 @@ import { Match } from '@/models/match';
 import { Bebas_Neue } from 'next/font/google';
 import { GridTimes } from '@/components/home/grid';
 import { CardTimes } from '@/components/home/card-times';
+import { useSession } from "next-auth/react";
 import { CardCanais } from '@/components/home/card-canais';
 
 const font = Bebas_Neue({
@@ -21,19 +22,28 @@ const br = new Match("Brasileirão", "Sem Jogos", "", "", [""]);
 const canais = ["Sportv", "Premiere", "Globo", "ESPN", "Disney+", "Paramount+"].sort();
 
 export default function HomePage() {
-    const [favorito, setFavorito] = useState();
-    useEffect(() => {
-        fetch("http://localhost:8000/auth/v1/favorito")
-            .then(response => response.json())
-            .then(data => {
-                setFavorito(data.favorito);
-            })
-            .catch(error => {
-                console.error('Erro ao buscar os dados:', error);
-            });
-    }, []);
+    const [favorito, setFavorito] = useState<string | undefined>();
+    const [rodada, setRodada] = useState<number>(0);
+    const [jogoBr, setJogoBr] = useState<Match>(br);
+    const [jogoLib, setJogoLib] = useState<Match>(lib);
 
-    const [rodada, setRodada] = useState(0);
+    const { data: session, status } = useSession();
+    const id = session?.user?.id;
+
+
+    useEffect(() => {
+        if (id) {
+            fetch(`http://localhost:8000/auth/v1/favorito/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    setFavorito(data.TIME_FAVORITO);
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar os dados:', error);
+                });
+        }
+    }, [id]);
+
     useEffect(() => {
         fetch("http://localhost:8000/api/v1/rodada")
             .then(response => response.json())
@@ -45,43 +55,53 @@ export default function HomePage() {
             });
     }, []);
 
-    const [jogoBr, setJogoBr] = useState<Match>(br);
     useEffect(() => {
-        fetch(`http://localhost:8000/api/v1/games/brasileirao/${favorito}`)
-            .then(response => response.json())
-            .then(data => {
-                const jogoBrData = data[0];
-                if (jogoBrData.campeonato && jogoBrData.data_hora && jogoBrData.time_1 && jogoBrData.time_2 && jogoBrData.channels) {
-                    const JogoBR = new Match(jogoBrData.campeonato, jogoBrData.data_hora, jogoBrData.time_1, jogoBrData.time_2, jogoBrData.channels);
-                    console.log(JogoBR);
-                    setJogoBr(JogoBR);
-                } else {
-                    console.error('Dados inválidos recebidos da API', jogoBrData);
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao buscar o jogo do Brasileirão:', error);
-            });
+        if (favorito) {
+            fetch(`http://localhost:8000/api/v1/games/brasileirao/${favorito}`)
+                .then(response => response.json())
+                .then(data => {
+                    const jogoBrData = data[0];
+                    if (jogoBrData.campeonato && jogoBrData.data_hora && jogoBrData.time_1 && jogoBrData.time_2 && jogoBrData.channels) {
+                        const JogoBR = new Match(jogoBrData.campeonato, jogoBrData.data_hora, jogoBrData.time_1, jogoBrData.time_2, jogoBrData.channels);
+                        console.log(JogoBR);
+                        setJogoBr(JogoBR);
+                    } else {
+                        console.error('Dados inválidos recebidos da API', jogoBrData);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar o jogo do Brasileirão:', error);
+                });
+        }
     }, [favorito]);
 
-    const [jogoLib, setJogoLib] = useState<Match>(lib);
     useEffect(() => {
-        fetch(`http://localhost:8000/api/v1/games/liberta/${favorito}`)
-            .then(response => response.json())
-            .then(data => {
-                const jogoLibData = data[0];
-                if (jogoLibData.campeonato && jogoLibData.data_hora && jogoLibData.time_1 && jogoLibData.time_2 && jogoLibData.channels) {
-                    const JogoLib = new Match(jogoLibData.campeonato, jogoLibData.data_hora, jogoLibData.time_1, jogoLibData.time_2, jogoLibData.channels);
-                    console.log(JogoLib);
-                    setJogoLib(JogoLib);
-                } else {
-                    console.error('Dados inválidos recebidos da API', data);
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao buscar o jogo da Libertadores:', error);
-            });
+        if (favorito) {
+            fetch(`http://localhost:8000/api/v1/games/liberta/${favorito}`)
+                .then(response => response.json())
+                .then(data => {
+                    const jogoLibData = data[0];
+                    if (jogoLibData.campeonato && jogoLibData.data_hora && jogoLibData.time_1 && jogoLibData.time_2 && jogoLibData.channels) {
+                        const JogoLib = new Match(jogoLibData.campeonato, jogoLibData.data_hora, jogoLibData.time_1, jogoLibData.time_2, jogoLibData.channels);
+                        console.log(JogoLib);
+                        setJogoLib(JogoLib);
+                    } else {
+                        console.error('Dados inválidos recebidos da API', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar o jogo da Libertadores:', error);
+                });
+        }
     }, [favorito]);
+
+    if (status === 'loading') {
+        return <div>Loading...</div>;
+    }
+
+    if (!id) {
+        return <div>User not logged in</div>;
+    }
 
     return (
         <div className="h-full">

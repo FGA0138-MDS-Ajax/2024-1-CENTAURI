@@ -22,11 +22,11 @@ export const LoginButton = ({
     if (mode === "modal") {
         return (
             <span>
-             TODO: Implement modal       
+             TODO: Implement modal
             </span>
         )
     }
-    
+
     return(
         <span onClick={onClick} className="cursor-pointer">
             {children}
