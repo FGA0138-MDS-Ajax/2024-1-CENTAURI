@@ -63,7 +63,8 @@ const Sidebar = () => {
       </button>
       {isOpen && (
         <div className="fixed inset-0 flex z-50">
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-[#003B14] shadow-lg">
+         <div className="fixed insert-0 bg-gray-700 bg-opacity-35 transition-opacity"></div>
+          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-[#002B14] shadow-lg">
             <div className="absolute top-0 right-0 -mr-12 pt-2">
               <button
                 type="button"
