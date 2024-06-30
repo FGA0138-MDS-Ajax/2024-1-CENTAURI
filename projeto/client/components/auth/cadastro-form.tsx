@@ -83,7 +83,7 @@ export const CadastroForm = () => {
                 } else {
                     setSuccess("Cadastro realizado com sucesso!");
                     form.reset();
-                    window.location.href = '/auth/login'
+                    window.location.href = 'api/auth/login'
                 }
             });
         });

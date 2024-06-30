@@ -1,12 +1,18 @@
 import { Router } from 'express';
-import {createUsuarioSchema} from '../schemas/auth.schema';
 import AuthRepository from '../repositories/auth.repository';
+import {z} from "zod";
+
+const loginSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(1),
+});
 
 const router = Router();
 
-router.get('/v1/favorito', async (req, res) => {
+router.get('/v1/favorito/:id', async (req, res) => {
     try{
-        const result = await AuthRepository.getFavoritoByUser(req.query.email as string);
+        const id = parseInt(req.params.id);
+        const result = await AuthRepository.getFavoritoByUser(id);
         res.send(result);
     }
     catch(err) {
@@ -31,17 +37,21 @@ router.post('/register', async(req, res) => {
     }
 });
 
-router.post('/login', async(req, res) => {
+router.post('/login', async (req, res) => {
     try {
-        const results = await AuthRepository.login(req.body.email, req.body.senha);
+        const validatedData = loginSchema.parse(req.body);
 
-        if (results === undefined || results === null) {
-            res.status(401).send('Invalid email or password');
-        } else {
-            res.send(results);
+        const user = await AuthRepository.login(validatedData.email, validatedData.password);
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid email or password' });
         }
-    } catch (err) {
-        res.status(400).send(err);
+
+        return res.status(200).json(user);
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            return res.status(400).json({ error: error.errors });
+        }
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
