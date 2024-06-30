@@ -32,6 +32,7 @@ export default function Home() {
             });
     }, []);
   return (
+    <div className="min-h-screen bg-custom-gradient">
     <main className="flex flex-col items-center justify-center flex-grow">
       <img
         src="https://upload.wikimedia.org/wikipedia/pt/thumb/a/a2/Logo_Premiere_FC_2018.png/1200px-Logo_Premiere_FC_2018.png"
@@ -55,5 +56,6 @@ export default function Home() {
           </div>
       </div>
     </main>
+    </div>
   );
 }

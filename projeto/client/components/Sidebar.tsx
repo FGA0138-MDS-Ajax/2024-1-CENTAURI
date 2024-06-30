@@ -668,19 +668,7 @@ const Sidebar = () => {
                       <ul className="flex py-1 space-x-0">
                         <li>
                           <a
-                            href="/home/canais/Band"
-                            className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
-                          >
-                            <img
-                              src="https://seeklogo.com/images/B/band-tv-logo-3F56FE323A-seeklogo.com.png"
-                              alt="Band"
-                              className="w-11 h-11 mr-2"
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="/home/canais/ESPN"
+                            href="/home/canais/espn"
                             className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                           >
                             <img
@@ -692,7 +680,7 @@ const Sidebar = () => {
                         </li>
                         <li>
                           <a
-                            href="/home/canais/Globo"
+                            href="/home/canais/globo"
                             className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                           >
                             <img
@@ -704,7 +692,7 @@ const Sidebar = () => {
                         </li>
                         <li>
                           <a
-                            href="/home/canais/Premiere"
+                            href="/home/canais/premiere"
                             className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                           >
                             <img
@@ -718,7 +706,7 @@ const Sidebar = () => {
                       <ul className="flex py-1 space-x-0">
                         <li>
                           <a
-                            href="/home/canais/Record"
+                            href="/home/canais/record"
                             className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                           >
                             <img
@@ -730,7 +718,7 @@ const Sidebar = () => {
                         </li>
                         <li>
                           <a
-                            href="/home/canais/SporTv"
+                            href="/home/canais/sportv"
                             className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                           >
                             <img
@@ -742,7 +730,7 @@ const Sidebar = () => {
                         </li>
                         <li>
                           <a
-                            href="/home/canais/Youtube"
+                            href="/home/canais/youtube"
                             className="flex items-center p-2 text-gray-900 transition duration-75 pl-4 group hover:bg-[#004B14]"
                           >
                             <img

@@ -120,6 +120,7 @@ export default function HomePage() {
     }
 
     return (
+        <div className="min-h-screen bg-custom-gradient">
         <div className="h-full">
             <div className="grid grid-cols-2 divide-white content-start">
     
@@ -158,6 +159,7 @@ export default function HomePage() {
                 </div>
     
             </div>
+        </div>
         </div>
     );
 };
