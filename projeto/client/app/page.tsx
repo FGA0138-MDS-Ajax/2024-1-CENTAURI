@@ -11,7 +11,7 @@ const font = Bebas_Neue({
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#005B14]">
+    <div className="flex flex-col min-h-screen bg-[#004B14]">
       <main className="flex flex-grow">
         {/* Coluna da Esquerda */}
         <div className="flex flex-col items-center justify-center relative">
