@@ -85,4 +85,13 @@ router.get('/v1/games/liberta/:favorito', async (req, res) => {
     }
 });
 
+router.get('/v1/canais', async (req, res) => {
+    try {
+        const canais = await GameRepository.getCanais();
+        res.send(canais);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 export default router;

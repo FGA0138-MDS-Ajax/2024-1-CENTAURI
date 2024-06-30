@@ -15,12 +15,15 @@ export const CardCanais = ({ canais }: CardCanaisProps) => {
             <CardContent className="flex justify-center">
                 <div className="flex gap-8">
                     {canais.sort().map((canal, index) => (
-                        <div key={index} className="flex flex-col items-center justify-center px-2">
-                            <div className="h-24 flex items-center justify-center">
-                                <Image src={`/${canal}.png`} alt={canal} width={100} height={100} />
+                        // eslint-disable-next-line react/jsx-key
+                        <a href={`/home/canais/${canal.toLowerCase()}`}>
+                            <div key={index} className="flex flex-col items-center justify-center px-2">
+                                <div className="h-24 flex items-center justify-center">
+                                    <Image src={`/${canal}.png`} alt={canal} width={100} height={100} />
+                                </div>
+                                <span className="mt-2">{canal}</span>
                             </div>
-                            <span className="mt-2">{canal}</span>
-                        </div>
+                        </a>
                     ))}
                 </div>
             </CardContent>

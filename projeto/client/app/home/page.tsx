@@ -19,17 +19,27 @@ const h2ClassName = "text-3xl font-semibold text-white drop-shadow-md";
 
 const lib = new Match("Libertadores", "Sem Jogos", "", "", [""]);
 const br = new Match("Brasileirão", "Sem Jogos", "", "", [""]);
-const canais = ["Sportv", "Premiere", "Globo", "ESPN", "Disney+", "Paramount+"].sort();
 
 export default function HomePage() {
     const [favorito, setFavorito] = useState<string | undefined>();
     const [rodada, setRodada] = useState<number>(0);
     const [jogoBr, setJogoBr] = useState<Match>(br);
     const [jogoLib, setJogoLib] = useState<Match>(lib);
+    const [canais, setCanais] = useState<string[]>([]);
 
     const { data: session, status } = useSession();
     const id = session?.user?.id;
 
+    useEffect(() => {
+        fetch("http://localhost:8000/api/v1/canais")
+            .then(response => response.json())
+            .then(data => {
+                setCanais(data);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar os dados:', error);
+            });
+    }, []);
 
     useEffect(() => {
         if (id) {
@@ -98,6 +108,8 @@ export default function HomePage() {
                 });
         }
     }, [favorito]);
+
+
 
     if (status === 'loading') {
         return <div>Loading...</div>;

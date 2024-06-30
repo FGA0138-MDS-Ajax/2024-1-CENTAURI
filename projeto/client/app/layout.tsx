@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
     title: "Onde é o jogo",
     description: "Listagem dos canais de trasmissão dos jogos dos campeonatos Libertadores e Brasileirão",
+
 };
 
 export default function RootLayout({
@@ -17,9 +18,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="pt-br">
-        <body className={inter.className}>
-        <ClientSessionProvider>{children}</ClientSessionProvider>
-        </body>
+            <body className={inter.className}>
+                <ClientSessionProvider>{children}</ClientSessionProvider>
+            </body>
         </html>
     );
 }

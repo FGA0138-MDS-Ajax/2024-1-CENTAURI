@@ -6,7 +6,7 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card_custom"
+} from "@/components/ui/card_custom";
 
 import { Match } from "@/models/match";
 
@@ -38,8 +38,8 @@ export const CardTimes = ({ match }: CardTimesProps) => {
             <CardFooter className="flex space-x-2 justify-center">
                 {match.channels.map((channel, index) => (
                     <span key={index} className="channel-item">
-            {channel} 
-          </span>
+                        {channel}
+                    </span>
                 ))}
             </CardFooter>
         </Card>
