@@ -6,6 +6,7 @@ import { Match } from '@/app/models/match';
 import { Bebas_Neue } from 'next/font/google';
 import { GridTimes } from '@/components/home/grid';
 import { CardTimes } from '@/components/home/card-times';
+import { CardCanais } from '@/components/home/card-canais';
 
 const font = Bebas_Neue({
     subsets: ['latin'],
@@ -14,11 +15,10 @@ const font = Bebas_Neue({
 
 const h1ClassName = "text-4xl font-semibold text-black drop-shadow-md text-center mt-8 mb-8";
 const h2ClassName = "text-3xl font-semibold text-black drop-shadow-md";
-const divCardsClassName = "w-full pt-4 pb-4";
 
-// Partidas exemplos
 const lib = new Match("Libertadores", "Sem Jogos", "", "", [""]);
 const br = new Match("Brasileirão", "Sem Jogos", "", "", [""]);
+const canais = ["Sportv", "Premiere", "Globo", "ESPN", "Disney+", "Paramount+"].sort();
 
 export default function HomePage() {
     const [favorito, setFavorito] = useState();
@@ -84,43 +84,44 @@ export default function HomePage() {
     }, [favorito]);
 
     return (
-        <div className="min-h-full w-full">
-            <div className="h-full grid grid-cols-2 divide-x-2 divide-black">
-
-                <div className="pt-2 pl-4 pr-4">
+        <div className="h-full">
+            <div className="grid grid-cols-2 divide-x-2 divide-black content-start">
+    
+                <div className="pt-2 pl-4 pr-4 pb-2">
                     <h1 className={cn(h1ClassName, font.className)}>Rodada {rodada}</h1>
                     <GridTimes />
                 </div>
-
-                <div className="pt-2 pl-4 pr-4">
+    
+                <div className="pt-2 pl-4 pr-4 pb-2">
                     <h1 className={cn(h1ClassName, font.className)}>{favorito}</h1>
-
-                    <div className="grid grid-rows-3 divide-y-2 divide-black content-between">
-                        <div className="w-full pb-4">
+    
+                    <div className="grid grid-rows-3 divide-y-2 divide-black gap-2">
+                        <div className="pb-2">
                             <h2 className={cn(h2ClassName, font.className)}>Brasileirão</h2>
-
                             <div className='w-432px mx-auto'>
                                 <CardTimes match={jogoBr} />
                             </div>
                         </div>
-
-                        <div className={divCardsClassName}>
+    
+                        <div className="pb-2">
                             <h2 className={cn(h2ClassName, font.className)}>Libertadores</h2>
-
                             <div className='w-432px mx-auto'>
                                 <CardTimes match={jogoLib} />
                             </div>
                         </div>
-
-                        <div className={divCardsClassName}>
+    
+                        <div className="pt-2 pb-2">
                             <h2 className={cn(h2ClassName, font.className)}>Canais de Transmissão</h2>
+                            <div>
+                                <CardCanais canais={canais}/>
+                            </div>
                         </div>
 
                     </div>
-
+                    
                 </div>
-
+    
             </div>
         </div>
     );
-}
+};
