@@ -33,6 +33,7 @@ export default function Home() {
     }, []);
 
     return (
+        <div className="min-h-screen bg-custom-gradient">
         <main className="flex flex-col items-center justify-center flex-grow">
             <img src="https://logodetimes.com/times/flamengo/logo-flamengo-2048.png" alt="Flamengo" width={100} height={100} />
             <div className="space-y-6 text-center">
@@ -51,5 +52,6 @@ export default function Home() {
                 </div>
             </div>
         </main>
+        </div>
     );
 }
