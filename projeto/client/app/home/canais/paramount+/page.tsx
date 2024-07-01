@@ -15,7 +15,7 @@ export default function Home() {
     const [matches, setMatches] = useState<Match[]>([]);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/v2/games/globo")
+        fetch("http://localhost:8000/api/v2/games/paramount+")
             .then(response => response.json())
             .then(data => {
                 const matchInstances = data.map((matchData: any) => new Match(
@@ -35,8 +35,8 @@ export default function Home() {
     <div className="min-h-screen bg-custom-gradient">
     <main className="flex flex-col items-center justify-center flex-grow">
       <img
-        src="https://seeklogo.com/images/R/rede-globo-2022-logo-B63B368B27-seeklogo.com.png?v=638252803310000000"
-        alt="Globo"
+        src="projeto\client\public\paramount+.png"
+        alt="paramount+"
         width={200}
         height={200}
       />
@@ -47,7 +47,7 @@ export default function Home() {
             font.className
           )}
         >
-          Globo
+          Paramount+
         </h1>
           <div className="grid grid-cols-2 gap-2">
               {matches.map((match, index) => (
@@ -59,3 +59,4 @@ export default function Home() {
     </div>
   );
 }
+
