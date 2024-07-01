@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -43,7 +44,7 @@ export default function Home() {
                         font.className
                     )}
                 >
-                    America_Mineiro
+                    America Mineiro
                 </h1>
                 <div className="grid grid-cols-2 gap-2">
                     {matches.map((match, index) => (
