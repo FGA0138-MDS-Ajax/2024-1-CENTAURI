@@ -63,6 +63,15 @@ class AuthRepository {
             throw error;
         }
     }
+
+    async editar(time_favorito:string , id:number){
+        const conn = await mysqlConn.getConnection();
+        const [result] = await conn.query(
+            'UPDATE USUARIO SET TIME_FAVORITO = ? WHERE IDUSUARIO = ?',
+            [time_favorito, id]
+        );
+        return result;
+    }
 }
 
 export default new AuthRepository();
