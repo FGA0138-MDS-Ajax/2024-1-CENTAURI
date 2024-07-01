@@ -16,7 +16,7 @@ export default function Home() {
     const [matches, setMatches] = useState<Match[]>([]);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/v1/games/the_strongest")
+        fetch("http://localhost:8000/api/v1/games/the%20strongest")
             .then(response => response.json())
             .then(data => {
                 const matchInstances = data.map((matchData: any) => new Match(

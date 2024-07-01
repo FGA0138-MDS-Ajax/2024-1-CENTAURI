@@ -17,7 +17,7 @@ export default function Home() {
     const [matches, setMatches] = useState<Match[]>([]);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/v1/games/atletico_goianiense")
+        fetch("http://localhost:8000/api/v1/games/atletico-go")
             .then(response => response.json())
             .then(data => {
                 const matchInstances = data.map((matchData: any) => new Match(
