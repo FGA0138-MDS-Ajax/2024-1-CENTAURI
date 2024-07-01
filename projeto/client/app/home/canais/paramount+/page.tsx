@@ -35,7 +35,7 @@ export default function Home() {
     <div className="min-h-screen bg-custom-gradient">
     <main className="flex flex-col items-center justify-center flex-grow">
       <img
-        src="projeto\client\public\paramount+.png"
+        src="\paramount+.png"
         alt="paramount+"
         width={200}
         height={200}
