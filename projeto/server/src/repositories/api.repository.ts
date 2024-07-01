@@ -127,7 +127,7 @@ class GameRepository {
                 "FROM JOGO J " +
                 "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
                 "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
-                "WHERE J.DATA_HORA >= NOW()" +
+                "WHERE J.DATA_HORA >= DATE_SUB(NOW(), INTERVAL 2 HOUR)" +
                 "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO"
             );
 
@@ -145,7 +145,7 @@ class GameRepository {
                 "FROM JOGO J " +
                 "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
                 "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
-                "WHERE J.DATA_HORA >= NOW() " +
+                "WHERE J.DATA_HORA >= DATE_SUB(NOW(), INTERVAL 2 HOUR) " +
                 "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO " +
                 "HAVING J.TIME_1 = ? OR J.TIME_2 = ?", [time, time]
             );
@@ -164,7 +164,7 @@ class GameRepository {
                 "FROM JOGO J " +
                 "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
                 "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
-                "WHERE J.DATA_HORA >= NOW() " +
+                "WHERE J.DATA_HORA >= DATE_SUB(NOW(), INTERVAL 2 HOUR) " +
                 "AND C.NOME_CANAL = ? " +
                 "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO", [channel]
             );
@@ -183,7 +183,7 @@ class GameRepository {
                 "FROM JOGO J " +
                 "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
                 "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
-                "WHERE J.DATA_HORA >= NOW() " +
+                "WHERE J.DATA_HORA >= DATE_SUB(NOW(), INTERVAL 2 HOUR) " +
                 "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO " +
                 "HAVING J.CAMPEONATO = ?", [campeonato]
             );
@@ -213,7 +213,7 @@ class GameRepository {
                 "FROM JOGO J " +
                 "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
                 "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
-                "WHERE J.DATA_HORA >= NOW() " +
+                "WHERE J.DATA_HORA >= DATE_SUB(NOW(), INTERVAL 2 HOUR) " +
                 "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO " +
                 "LIMIT ?", [quantidade]
             );
@@ -232,7 +232,7 @@ class GameRepository {
                 "FROM JOGO J " +
                 "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
                 "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
-                "WHERE J.DATA_HORA >= NOW() " +
+                "WHERE J.DATA_HORA >= DATE_SUB(NOW(), INTERVAL 2 HOUR) " +
                 "AND (J.TIME_1 = ? OR J.TIME_2 = ?) " +
                 "AND J.CAMPEONATO = 'Brasileirão' " +
                 "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO "+
@@ -253,7 +253,7 @@ class GameRepository {
                 "FROM JOGO J " +
                 "JOIN PASSA_EM PE ON J.IDJOGO = PE.ID_JOGO " +
                 "JOIN CANAL C ON PE.ID_CANAL = C.IDCANAL " +
-                "WHERE J.DATA_HORA >= NOW() " +
+                "WHERE J.DATA_HORA >= DATE_SUB(NOW(), INTERVAL 2 HOUR) " +
                 "AND (J.TIME_1 = ? OR J.TIME_2 = ?) " +
                 "AND J.CAMPEONATO = 'Libertadores' " +
                 "GROUP BY J.CAMPEONATO, J.DATA_HORA, J.IDJOGO " +
