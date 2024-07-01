@@ -13,13 +13,11 @@ export const authOptions: NextAuthOptions = {
                 password: { label: 'Password', type: 'password' },
             },
             authorize: async (credentials) => {
-                console.log('Received credentials:', credentials);
                 try {
                     const response = await axios.post('http://localhost:8000/auth/login', {
                         email: credentials?.email,
                         password: credentials?.password,
                     });
-                    console.log('Response from API:', response.data);
 
                     if (response.status === 200 && response.data) {
                         return {
