@@ -42,13 +42,11 @@ export const LoginForm = () => {
         setSuccess(undefined);
 
         startTransition(() => {
-            console.log('Submitting data:', data);
             signIn('credentials', {
                 redirect: false,
                 email: data.email,
                 password: data.password,
             }).then((response) => {
-                console.log('SignIn response:', response);
                 if (response?.error) {
                     setError(response.error);
                 } else {

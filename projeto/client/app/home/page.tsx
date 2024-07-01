@@ -77,7 +77,6 @@ export default function HomePage() {
                     const jogoBrData = data[0];
                     if (jogoBrData.campeonato && jogoBrData.data_hora && jogoBrData.time_1 && jogoBrData.time_2 && jogoBrData.channels) {
                         const JogoBR = new Match(jogoBrData.campeonato, jogoBrData.data_hora, jogoBrData.time_1, jogoBrData.time_2, jogoBrData.channels);
-                        console.log(JogoBR);
                         setJogoBr(JogoBR);
                     } else {
                         console.error('Dados inválidos recebidos da API', jogoBrData);
@@ -97,7 +96,6 @@ export default function HomePage() {
                     const jogoLibData = data[0];
                     if (jogoLibData.campeonato && jogoLibData.data_hora && jogoLibData.time_1 && jogoLibData.time_2 && jogoLibData.channels) {
                         const JogoLib = new Match(jogoLibData.campeonato, jogoLibData.data_hora, jogoLibData.time_1, jogoLibData.time_2, jogoLibData.channels);
-                        console.log(JogoLib);
                         setJogoLib(JogoLib);
                     } else {
                         console.error('Dados inválidos recebidos da API', data);
@@ -125,7 +123,7 @@ export default function HomePage() {
             <div className="grid grid-cols-2 divide-white content-start">
     
                 <div className="pt-2 pl-4 pr-4 pb-2">
-                    <h1 className={cn(h1ClassName, font.className)}>Rodada {rodada}</h1>
+                    <h1 className={cn(h1ClassName, font.className)}>Rodada {rodada} do Brasileirão e Oitavas Libertadores</h1>
                     <GridTimes />
                 </div>
     
