@@ -54,5 +54,17 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/editar', async (req, res) => {
+    const time = req.body.time;
+    const id = req.body.id;
+    console.log(time, id);
+    try{
+        const result = await AuthRepository.editar(time, id);
+        res.send(result);
+    }
+    catch(err) {
+        res.status(400).send(err);
+    }
+});
 
 export default router;
