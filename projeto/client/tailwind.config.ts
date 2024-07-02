@@ -56,6 +56,8 @@ const config = {
         'custom-green': '#005B14',
         'custom-gray': '#CFCFCF',
       },
+      
+      // background da página
       backgroundImage: {
         'custom-gradient': 'radial-gradient(circle at center, #003B14, #002B14, #002B14)',
       },
