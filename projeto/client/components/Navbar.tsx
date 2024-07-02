@@ -1,13 +1,18 @@
 'use client';
 
+// Importação de componentes necessários 
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { HomeButton } from '@/components/auth/home-button';
 
+// Componente funcional Navbar
 const Navbar = () => {
+  // Obtém o caminho atual da página usando o hook usePathname
   const pathname = usePathname();
-
+  
+  // Condicional para renderizar o navbar dependendo do pathname
   if (pathname === "/home") {
+    // Navbar para a página inicial (pathname === "/home")
     return (
         <nav className="bg-[#005B14] p-3 relative">
           <div className="container mx-auto flex justify-between items-center">
@@ -24,6 +29,7 @@ const Navbar = () => {
     );
   }
 
+  // Navbar para outras páginas que não sejam a página inicial
   return (
       <nav className="bg-[#005B14] p-3 relative">
         <div className="container mx-auto flex justify-between items-center">
@@ -41,4 +47,6 @@ const Navbar = () => {
   );
 };
 
+
+// Exporta o componente Navbar como padrão para ser utilizado em outros arquivos
 export default Navbar;
