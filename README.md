@@ -58,3 +58,54 @@ Com a chegada dos serviços de streaming, as tradicionais emissoras de TV perder
 
 </table>
 </center>
+
+## Instruções para iniciar o site localmente
+
+### Requisitos:
+
+1.  Node.js v20 instalado
+2.  NPM (Node Package Manager) instalado
+3.  MySQL instalado
+
+### Passos para iniciar o projeto:
+
+1.  **Clone o repositório:**
+
+    `git clone https://github.com/FGA0138-MDS-Ajax/2024-1-CENTAURI.git` <br>
+    `cd 2024-1-CENTAURI`
+
+2.  **Configuração do Banco de Dados:**
+
+    -   Certifique-se de que o MySQL esteja rodando.
+    -   Crie um banco de dados para o projeto. O script esta presenta em 
+        `projeto/server/SQL` e se chama "fisico.sql"
+      
+3.  **Instalar dependências:**
+
+    Navegue até a pasta do cliente e instale as dependências:
+
+    `cd projeto/cliente`
+    `npm install`
+
+    Em um novo terminal, navegue até a pasta do servidor e instale as dependências:
+
+    `cd projeto/server`<br>
+    `npm install`
+
+4.  **Executar o projeto:**
+
+    -   **Cliente:**
+
+        Navegue até a pasta do cliente e inicie o cliente:
+
+        `cd projeto/cliente`<br>
+        `npm run dev`
+
+    -   **Servidor:**
+
+        Em um novo terminal, navegue até a pasta do servidor e inicie o servidor:
+
+        `cd projeto/server`<br>
+        `npm run dev`
+
+
