@@ -65,7 +65,7 @@ Com a chegada dos serviços de streaming, as tradicionais emissoras de TV perder
 
 [Documento de Visão](https://github.com/FGA0138-MDS-Ajax/2024-1-CENTAURI/blob/main/docs/documento-visao/Centauri%20-Brasileirão%20-%20MDS-2024.1%20-%2020230928-Visao%20do%20Produto%20e%20Projeto_escopo.pdf)
 
-[Documento de Testes]()
+[Documento de Testes](https://github.com/FGA0138-MDS-Ajax/2024-1-CENTAURI/blob/main/docs/documento-plano-testes/Documento%20de%20Testes.pdf)
 
 [Ponto de Controle Final](https://github.com/FGA0138-MDS-Ajax/2024-1-CENTAURI/blob/main/docs/ponto-de-controle/Ponto%20de%20Controle%20Centauri%20-%20MDS%202024.1.pdf)
 
