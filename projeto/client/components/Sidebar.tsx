@@ -1,20 +1,25 @@
 "use client";
 
+// Importações necessárias
 import React, { useState } from "react";
 
+// Componente da barra lateral
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
-  const [isDropdownOpen3, setIsDropdownOpen3] = useState(false);
-  const [isNestedDropdownOpen, setIsNestedDropdownOpen] = useState(false);
-  const [isNestedDropdownOpen2, setIsNestedDropdownOpen2] = useState(false);
-  const [isNestedDropdownOpen3, setIsNestedDropdownOpen3] = useState(false);
+  // Estados para controlar a abertura/fechamento da barra lateral e dos dropdowns
+  const [isOpen, setIsOpen] = useState(false); // Estado da barra lateral
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Estado do primeiro dropdown
+  const [isDropdownOpen2, setIsDropdownOpen2] = useState(false); // Estado do segundo dropdown
+  const [isDropdownOpen3, setIsDropdownOpen3] = useState(false); // Estado do terceiro dropdown
+  const [isNestedDropdownOpen, setIsNestedDropdownOpen] = useState(false); // Estado do dropdown cascata
+  const [isNestedDropdownOpen2, setIsNestedDropdownOpen2] = useState(false); // Estado do segundo dropdown cascata
+  const [isNestedDropdownOpen3, setIsNestedDropdownOpen3] = useState(false); // Estado do terceiro dropdown cascata
 
+  // Função para alternar a visibilidade da barra lateral
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
+  // Funções para alternar a visibilidade dos dropdowns principais
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -27,6 +32,7 @@ const Sidebar = () => {
     setIsDropdownOpen3(!isDropdownOpen3);
   };
 
+  // Funções para alternar a visibilidade dos dropdowns cascata
   const toggleNestedDropdown = () => {
     setIsNestedDropdownOpen(!isNestedDropdownOpen);
   };
@@ -41,6 +47,7 @@ const Sidebar = () => {
 
   return (
     <div className="relative">
+      {/* Botão para abrir o sidebar */}
       <button
         type="button"
         onClick={toggleSidebar}
@@ -61,10 +68,14 @@ const Sidebar = () => {
           />
         </svg>
       </button>
+
+      {/* Conteúdo do sidebar */}
       {isOpen && (
         <div className="fixed inset-0 flex z-50">
          <div className="fixed insert-0 bg-gray-700 bg-opacity-35 transition-opacity"></div>
           <div className="relative flex-1 flex flex-col max-w-xs w-full bg-[#002B14] shadow-lg">
+
+            {/* Botão para fechar o sidebar */}
             <div className="absolute top-0 right-0 -mr-12 pt-2">
               <button
                 type="button"
@@ -88,10 +99,14 @@ const Sidebar = () => {
                 </svg>
               </button>
             </div>
+
+            {/* Nome Menu no topo da sidebar */}
             <div className="flex-1 h-0 pt-0 pb-4 overflow-y-auto">
               <span className="text-white flex items-center justify-between py-3 px-2 bg-[#005B14]">
                 Menu
               </span>
+
+              {/* Dropdown 1 - Campeonatos Disponíveis */}
               <nav className="mt-0">
                 <ol className="relative">
                   <button
@@ -120,6 +135,8 @@ const Sidebar = () => {
                       />
                     </svg>
                   </button>
+
+                  {/* Lista dos campeonatos disponiveis */}
                   {isDropdownOpen && (
                     <ul className="py- space-y-2">
                       <li>
@@ -146,6 +163,8 @@ const Sidebar = () => {
                   )}
                 </ol>
               </nav>
+
+              {/* Dropdown 2 - Times*/}
               <nav className="mt-0">
                 <ol className="relative">
                   <button
@@ -174,9 +193,12 @@ const Sidebar = () => {
                       />
                     </svg>
                   </button>
+
+                  {/* Submenu do Times */}
                   {isDropdownOpen2 && (
                     <ul className="py-0 space-y-2">
                       <li>
+                        {/* Dropdown cascata no submenu do Dropdown 2 - times brasileiros*/}
                         <button
                           type="button"
                           className="flex items-center w-full p-2 text-base text-white transition duration-75 pl-1 group hover:bg-[#004B14]"
@@ -203,8 +225,10 @@ const Sidebar = () => {
                             />
                           </svg>
                         </button>
+
+                        {/* Lista de times brasileiros do submenu */}
                         {isNestedDropdownOpen && (
-                          <ul className="flex py-1 space-x-0">
+                          <ul className="flex py-1 space-x-0">                            
                             <li>
                               <a
                                 href="/home/timesBr/Bragantino"
@@ -481,6 +505,8 @@ const Sidebar = () => {
                         )}
                       </li>
                       <li>
+
+                        {/* Dropdown cascata no submenu do Dropdown 2 - times sul-americanos*/}
                         <button
                           type="button"
                           className="flex items-center w-full p-2 text-base text-white transition duration-75 pl-1 group hover:bg-[#004B14]"
@@ -507,8 +533,10 @@ const Sidebar = () => {
                             />
                           </svg>
                         </button>
+
+                        {/* Lista de times sul-americanos do submenu */}
                         {isNestedDropdownOpen2 && (
-                          <ul className="flex py-1 space-x-0">
+                          <ul className="flex py-1 space-x-0">                           
                             <li>
                               <a
                                 href="/home/timesSa/San_Lorenzo"
@@ -633,7 +661,7 @@ const Sidebar = () => {
                 </ol>
               </nav>
 
-              {/* canais de transmissao */}
+              {/* Dropdown 3 - canais de transmissao */}
 
               <nav className="mt-0">
                 <ol className="relative">
@@ -663,6 +691,8 @@ const Sidebar = () => {
                       />
                     </svg>
                   </button>
+
+                  {/* Lista dos canais de transmissão */}
                   {isDropdownOpen3 && (
                     <ul className="py-0 space-y-2">
                       <ul className="flex py-1 space-x-0">
@@ -746,9 +776,11 @@ const Sidebar = () => {
                 </ol>
               </nav>
 
-              {/* canais de transmissao */}
+              
             </div>
           </div>
+
+          {/* Botão Settings */}
           <div className="fixed bottom-0 py-0 space-y-2">
             <ol>
               <a
